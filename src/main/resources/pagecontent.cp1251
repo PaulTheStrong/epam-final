@@ -1,0 +1,12 @@
+header.logo=Библиотека
+header.books=Книги
+header.sign_in=Войти
+header.sign_out=Выйти
+
+sidebar.authors=Авторы
+sidebar.genres=Жанры
+
+error.invalidUsernameOrPassword=Неверный логин или пароль
+error.logoutError=Вы не вошли!
+
+success.logoutSuccess=Выход прошел успешно!
