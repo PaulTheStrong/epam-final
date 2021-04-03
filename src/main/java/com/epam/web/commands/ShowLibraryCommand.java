@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GetBooksCommand implements Command {
+public class ShowLibraryCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
@@ -37,7 +37,7 @@ public class GetBooksCommand implements Command {
         request.setAttribute("genreList", genres);
         request.setAttribute("authorList", authors);
 
-        return CommandResult.forward("WEB-INF/pages/books.jsp");
+        return CommandResult.forward("WEB-INF/pages/library.jsp");
 
     }
 }

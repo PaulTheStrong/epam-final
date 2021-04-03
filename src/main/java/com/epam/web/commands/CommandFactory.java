@@ -1,9 +1,6 @@
 package com.epam.web.commands;
 
-import com.epam.web.conncetion.ConnectionPool;
-import com.epam.web.dao.DaoHelper;
 import com.epam.web.dao.DaoHelperFactory;
-import com.epam.web.dao.UserDaoImpl;
 import com.epam.web.service.UserService;
 
 public class CommandFactory {
@@ -14,12 +11,14 @@ public class CommandFactory {
                  return new LoginCommand(new UserService(new DaoHelperFactory()));
             case "logout":
                 return new LogoutCommand();
-            case "books":
-                return new GetBooksCommand();
+            case "library":
+                return new ShowLibraryCommand();
             case "showPage":
                 return new ShowPageCommand();
+            case "profile":
+                return new ProfileCommand();
             default:
-                throw new IllegalArgumentException("Unknown comand" +  type);
+                throw new IllegalArgumentException("Unknown command" +  type);
         }
     }
 

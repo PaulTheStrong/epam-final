@@ -36,7 +36,7 @@ public class LoginCommand implements Command {
             User user = optionalUser.get();
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            return CommandResult.redirect(request.getContextPath() + "/controller?command=books");
+            return CommandResult.redirect(request.getContextPath() + "/controller?command=library");
         } else {
             request.setAttribute("errorMessage", invalidUsernameOrPasswordError); //ErrorMessage в интренационализацию | FMT
             String login = request.getParameter("login");

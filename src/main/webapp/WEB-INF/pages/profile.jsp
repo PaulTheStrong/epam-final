@@ -1,16 +1,28 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Павел
-  Date: 20.03.2021
-  Time: 17:25
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setBundle basename="pagecontent" var="rb" />
+
 <html>
 <head>
-    <title>Title</title>
+    <link rel="stylesheet" href="static/style.css">
 </head>
+
 <body>
+    <jsp:include page="fragments/header.jsp" />
+    <div id="main">
+        <h1 class="profile-by-books">
+           <fmt:message key="profile.my-books" bundle="${rb}" />
+        </h1>
+
+        <c:forEach var="order" items="${requestScope.userOrders}" >
+            <li>
+                <h1>${order.bookId}</h1>
+            </li>
+        </c:forEach>
+    </div>
 
 </body>
 </html>

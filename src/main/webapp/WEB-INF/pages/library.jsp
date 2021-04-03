@@ -4,10 +4,12 @@
 
 <fmt:setBundle basename="pagecontent" var="rb" />
 
+<c:set var="libraryCommand" value="library" />
+
 <html>
 <head>
     <title>
-        <fmt:message key="header.books" bundle="${rb}"/>
+        <fmt:message key="header.library" bundle="${rb}"/>
     </title>
     <link rel="stylesheet" href="static/style.css">
 </head>
@@ -22,7 +24,7 @@
                 <ul>
                     <c:forEach var="author" items="${requestScope.authorList}">
                         <li>
-                            <a href="${pageContext.request.contextPath}/controller?command=books&author_id=${author.id}">
+                            <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}&author_id=${author.id}">
                                 <c:out value="${author.name} ${author.surname}" />
                             </a>
                         </li>
@@ -36,7 +38,7 @@
             <ul>
                 <c:forEach var="genre" items="${requestScope.genreList}">
                     <li>
-                        <a href="${pageContext.request.contextPath}/controller?command=books&genre_id=${genre.id}">
+                        <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}&genre_id=${genre.id}">
                             <c:out value="${genre.name}" />
                         </a>
                     </li>
@@ -56,20 +58,20 @@
                         </div>
                         <c:out value="${book.descriptionRu}" />
                         <ul>
-                            <b>Жанры</b>:
-                            <c:forEach var="genre" items="${book.genres}">
+                            <b><fmt:message key="sidebar.genres" bundle="${rb}"/></b>:
+                            <c:forEach var="genre" items="${book.genres}" >
                                 <li>
-                                    <a href="${pageContext.request.contextPath}/controller?command=books&genre_id=${genre.id}">
+                                    <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}&genre_id=${genre.id}">
                                         <c:out value="${genre.name}" />
                                     </a>
                                 </li>
                             </c:forEach>
                         </ul>
                         <ul>
-                            <b>Авторы: </b>:
+                            <b><fmt:message key="sidebar.authors" bundle="${rb}"/></b>:
                             <c:forEach var="author" items="${book.authors}">
                                 <li>
-                                    <a href="${pageContext.request.contextPath}/controller?command=books&author_id=${author.id}">
+                                    <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}&author_id=${author.id}">
                                         <c:out value="${author.name} ${author.surname}" />
                                     </a>
                                 </li>

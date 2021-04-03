@@ -3,6 +3,7 @@ package com.epam.web.dao;
 import com.epam.web.enitity.Book;
 import com.epam.web.exceptions.DaoException;
 import com.epam.web.mappers.BookRowMapper;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
 import java.util.List;
@@ -61,22 +62,22 @@ public class BookDaoImpl extends AbstractDao<Book> implements BookDao {
 
     @Override
     public List<Book> getBooksByTitle(String title) {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
     public List<Book> getBooksByDescription(String description) {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
     public void save(Book entity) throws DaoException {
-
+        throw new NotImplementedException();
     }
 
     @Override
     public void removeById(long id) {
-
+        throw new NotImplementedException();
     }
 
     @Override

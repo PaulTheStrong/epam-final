@@ -15,20 +15,16 @@
 
 <fmt:setLocale value="en_US" scope="session"/>
 <fmt:bundle basename="pagecontent" prefix="header.">
-<div class="header">
 
-    <!---   Logo    --->
-    <h2 class="logo">
-        <fmt:message key="logo" />
-    </h2>
+<div class="header">
 
     <!---     Navigation       --->
     <ul class="navigation">
-        <li><a href="${pageContext.request.contextPath}/controller?command=books">
-            <fmt:message key="books" />
+        <li><a href="${pageContext.request.contextPath}/controller?command=library">
+            <fmt:message key="library" />
         </a></li>
         <c:if test="${sessionScope.user != null}">
-            <li><a href="">${sessionScope.user.login}</a></li>
+            <li><a href="${pageContext.request.contextPath}/controller?command=profile">${sessionScope.user.login}</a></li>
         </c:if>
     </ul>
 

@@ -4,7 +4,7 @@ body {
 
 
 #main {
-    width: 70%;
+    width: 90%;
     margin: auto;
     display: flex;
     max-width: 1280px;
@@ -135,8 +135,9 @@ body {
 }
 
 .book-image {
-    width: 15%;
-    max-width: 200px;
+    width: 25%;
+    max-width: 150px;
+    min-width: 130px;
 }
 
 .book img {
@@ -175,4 +176,13 @@ body {
 
 .book-description ul li:not(:last-child) {
     border-right: 2px solid gray;
+}
+
+.profile-by-books {
+    text-align: center;
+    font-family: Roboto, serif;
+    font-size: 24px;
+    border-bottom: #FF820F 3px solid;
+    width: 100%;
+    padding-bottom: 15px;
 }

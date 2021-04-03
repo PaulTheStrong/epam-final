@@ -40,7 +40,7 @@ public class ConnectionPool {
                 availableConnections.offer(connection);
             } catch (SQLException e) {
                 LOGGER.error("Cannot connect to database!" + e);
-                throw new Error();
+                throw new RuntimeException(e);
             }
         }
     }

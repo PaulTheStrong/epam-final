@@ -30,6 +30,10 @@ public class DaoHelper implements AutoCloseable {
         return new GenreDaoImpl(connection);
     }
 
+    public BookOrderDao createBookOrderDao() {
+        return new BookOrderDaoImpl(connection);
+    }
+
     public void close() {
         connection.close();
     }
