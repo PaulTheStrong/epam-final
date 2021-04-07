@@ -2,6 +2,7 @@ package com.epam.web.commands;
 
 import com.epam.web.dao.DaoHelper;
 import com.epam.web.dao.DaoHelperFactory;
+import com.epam.web.dto.BookDto;
 import com.epam.web.enitity.Author;
 import com.epam.web.enitity.Book;
 import com.epam.web.enitity.Genre;
@@ -10,28 +11,45 @@ import com.epam.web.service.BookService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class ShowLibraryCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         BookService bookService = new BookService(new DaoHelperFactory());
-        List<Book> books;
-        String author_id = request.getParameter("author_id");
-        String genre_id = request.getParameter("genre_id");
+        List<BookDto> books;
+        String authorIdString = request.getParameter("authorId");
+        String genreIdString = request.getParameter("genreId");
 
-        if (author_id != null) {
-            books = bookService.getBooksByAuthorId(Long.parseLong(author_id));
-        } else if (genre_id != null) {
-            books =  bookService.getBooksByGenreId(Long.parseLong(genre_id));
+        long page = Long.parseLong(Optional.ofNullable(request.getParameter("page")).orElse("1"));
+        int elementsOnPage = 2;
+        boolean isLast;
+
+        if (authorIdString != null) {
+            request.setAttribute("authorId", authorIdString);
+            long authorId = Long.parseLong(authorIdString);
+            books = bookService.getBooksByAuthorId(authorId, page - 1, elementsOnPage);
+            isLast = bookService.countBooksByAuthorId(authorId) <= page * elementsOnPage;
+        } else if (genreIdString != null) {
+            request.setAttribute("genreId", genreIdString);
+            long genreId = Long.parseLong(genreIdString);
+            books =  bookService.getBooksByGenreId(genreId, page - 1, elementsOnPage);
+            isLast = bookService.countBooksByGenreId(genreId) <= page * elementsOnPage;
         } else {
-            books = bookService.getAllBooks();
+            books = bookService.getBooksOnPage(page - 1, elementsOnPage);
+            isLast = bookService.countBooks() <= page * elementsOnPage;
         }
         List<Genre> genres = bookService.getAllGenres();
         List<Author> authors = bookService.getAllAuthors();
+
+
+        request.setAttribute("currentPage", page);
+        request.setAttribute("isLast", isLast);
 
         request.setAttribute("bookList", books);
         request.setAttribute("genreList", genres);

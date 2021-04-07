@@ -18,7 +18,7 @@ public class CommandFactory {
             case "profile":
                 return new ProfileCommand();
             default:
-                throw new IllegalArgumentException("Unknown command" +  type);
+                throw new IllegalArgumentException("Unknown command: " +  type);
         }
     }
 

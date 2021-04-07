@@ -1,6 +1,7 @@
 package com.epam.web.commands;
 
 import com.epam.web.dao.DaoHelperFactory;
+import com.epam.web.dto.BookOrderDto;
 import com.epam.web.enitity.BookOrder;
 import com.epam.web.enitity.User;
 import com.epam.web.exceptions.ServiceException;
@@ -22,7 +23,7 @@ public class ProfileCommand implements Command {
 
         OrderService orderService = new OrderService(new DaoHelperFactory());
 
-        List<BookOrder> userOrders = orderService.getAllByUserId(userId);
+        List<BookOrderDto> userOrders = orderService.getAllByUserId(userId);
         request.setAttribute("userOrders", userOrders);
 
         return CommandResult.forward("WEB-INF/pages/profile.jsp");

@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
+<fmt:setLocale value="${sessionScope.locale.language != null ? sessionScope.locale.language : 'ru'}" scope="session"/>
 <fmt:setBundle basename="pagecontent" var="rb" />
 
 <html>
@@ -13,15 +15,16 @@
 <body>
     <jsp:include page="fragments/header.jsp" />
     <div id="main">
-        <h1 class="profile-by-books">
-           <fmt:message key="profile.my-books" bundle="${rb}" />
-        </h1>
-
-        <c:forEach var="order" items="${requestScope.userOrders}" >
+        <div class="book-orders">
+            <h1>
+               <fmt:message key="profile.my-books" bundle="${rb}" />
+            </h1>
+            <c:forEach var="order" items="${requestScope.userOrders}" >
             <li>
-                <h1>${order.bookId}</h1>
+                ${order.bookDto.book.id}
             </li>
-        </c:forEach>
+            </c:forEach>
+        </div>
     </div>
 
 </body>

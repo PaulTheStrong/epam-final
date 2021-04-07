@@ -13,10 +13,16 @@
 }
 </style>
 
-<fmt:setLocale value="en_US" scope="session"/>
+<fmt:setLocale value="${sessionScope.language != null ? sessionScope.language : 'ru'}" scope="session"/>
 <fmt:bundle basename="pagecontent" prefix="header.">
 
 <div class="header">
+
+    <ul class="localization">
+        <li><a href="${pageContext.request.contextPath}/controller?command=${param.command}&lang=ru">RU</a></li>
+        <li><a href="${pageContext.request.contextPath}/controller?command=${param.command}&lang=en">EN</a></li>
+        <li><a href="${pageContext.request.contextPath}/controller?command=${param.command}&lang=de">DE</a></li>
+    </ul>
 
     <!---     Navigation       --->
     <ul class="navigation">

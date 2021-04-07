@@ -12,18 +12,13 @@ public class Book implements Identifiable {
     private String descriptionEn;
     private String imagePath;
 
-    List<Author> authors;
-    List<Genre> genres;
-
-    public Book(long id, String titleRu, String titleEn, String descriptionRu, String descriptionEn, String imagePath, List<Author> authors, List<Genre> genres) {
+    public Book(long id, String titleRu, String titleEn, String descriptionRu, String descriptionEn, String imagePath) {
         this.id = id;
         this.titleRu = titleRu;
         this.titleEn = titleEn;
         this.descriptionRu = descriptionRu;
         this.descriptionEn = descriptionEn;
         this.imagePath = imagePath;
-        this.genres = genres;
-        this.authors = authors;
     }
 
     @Override
@@ -73,21 +68,5 @@ public class Book implements Identifiable {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
-    }
-
-    public List<Author> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(List<Author> authors) {
-        this.authors = authors;
-    }
-
-    public List<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
     }
 }

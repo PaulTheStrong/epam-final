@@ -29,6 +29,6 @@ public class BookRowMapper implements RowMapper<Book> {
         String description_en = resultSet.getString(DESCRIPTION_EN_COLUMN);
         String image_path = resultSet.getString(IMAGE_PATH_COLUMN);
 
-        return new Book(id, title_ru, title_en, description_ru, description_en, image_path, null, null);
+        return new Book(id, title_ru, title_en, description_ru, description_en, image_path);
     }
 }

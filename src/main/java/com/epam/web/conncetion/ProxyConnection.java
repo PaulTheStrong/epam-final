@@ -72,57 +72,57 @@ public class ProxyConnection implements Connection {
 
     @Override
     public void setReadOnly(boolean b) throws SQLException {
-
+        connection.setReadOnly(b);
     }
 
     @Override
     public boolean isReadOnly() throws SQLException {
-        return false;
+        return connection.isReadOnly();
     }
 
     @Override
     public void setCatalog(String s) throws SQLException {
-
+        connection.setCatalog(s);
     }
 
     @Override
     public String getCatalog() throws SQLException {
-        return null;
+        return connection.getCatalog();
     }
 
     @Override
     public void setTransactionIsolation(int i) throws SQLException {
-
+        connection.setTransactionIsolation(i);
     }
 
     @Override
     public int getTransactionIsolation() throws SQLException {
-        return 0;
+        return connection.getTransactionIsolation();
     }
 
     @Override
     public SQLWarning getWarnings() throws SQLException {
-        return null;
+        return connection.getWarnings();
     }
 
     @Override
     public void clearWarnings() throws SQLException {
-
+        connection.clearWarnings();
     }
 
     @Override
     public Statement createStatement(int i, int i1) throws SQLException {
-        return null;
+        return connection.createStatement(i, i1);
     }
 
     @Override
     public PreparedStatement prepareStatement(String s, int i, int i1) throws SQLException {
-        return null;
+        return connection.prepareStatement(s, i1);
     }
 
     @Override
     public CallableStatement prepareCall(String s, int i, int i1) throws SQLException {
-        return null;
+        return connection.prepareCall(s, i, i1);
     }
 
     @Override

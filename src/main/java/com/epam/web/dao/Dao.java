@@ -11,11 +11,15 @@ public interface Dao<T extends Identifiable> {
 
     List<T> getAll() throws DaoException;
 
+    List<T> getRecordsOnPage(long pageIndex, long elementsOnPage) throws DaoException;
+
     Optional<T> getById(long id) throws DaoException;
+
+    long countAll() throws DaoException;
 
     void save(T entity) throws DaoException;
 
-    void removeById(long id);
+    void removeById(long id) throws DaoException;
 
 
 }

@@ -31,6 +31,10 @@ public class Controller extends HttpServlet {
 
     public static void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String commandType = request.getParameter("command");
+        if("".equals(commandType)) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            return;
+        }
         Command command = commandFactory.create(commandType);
         CommandResult result = CommandResult.forward("WEB-INF/error.jsp");
         try {

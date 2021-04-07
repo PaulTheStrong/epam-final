@@ -10,6 +10,7 @@
 <body>
 
 <jsp:include page="fragments/header.jsp"/>
+<fmt:setLocale value="${sessionScope.language != null ? sessionScope.language : 'ru'}" scope="session"/>
 <fmt:setBundle basename="pagecontent" var="br"/>
 
 <div id="main">

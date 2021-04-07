@@ -2,8 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setBundle basename="pagecontent" var="rb" />
 
+<fmt:setLocale value="${sessionScope.language != null ? sessionScope.language : 'ru'}" scope="session"/>
+<fmt:setBundle basename="pagecontent" var="rb" />
 <c:set var="libraryCommand" value="library" />
 
 <html>
@@ -24,7 +25,7 @@
                 <ul>
                     <c:forEach var="author" items="${requestScope.authorList}">
                         <li>
-                            <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}&author_id=${author.id}">
+                            <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}&authorId=${author.id}">
                                 <c:out value="${author.name} ${author.surname}" />
                             </a>
                         </li>
@@ -38,7 +39,7 @@
             <ul>
                 <c:forEach var="genre" items="${requestScope.genreList}">
                     <li>
-                        <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}&genre_id=${genre.id}">
+                        <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}&genreId=${genre.id}">
                             <c:out value="${genre.name}" />
                         </a>
                     </li>
@@ -47,7 +48,8 @@
             </div>
         </div>
         <div class="books">
-            <c:forEach var="book" items="${requestScope.bookList}">
+            <c:forEach var="bookDto" items="${requestScope.bookList}">
+                <c:set var="book" value="${bookDto.book}" />
                 <div class="book">
                     <div class="book-image">
                         <img src="${book.imagePath}" alt="">
@@ -59,9 +61,9 @@
                         <c:out value="${book.descriptionRu}" />
                         <ul>
                             <b><fmt:message key="sidebar.genres" bundle="${rb}"/></b>:
-                            <c:forEach var="genre" items="${book.genres}" >
+                            <c:forEach var="genre" items="${bookDto.genres}" >
                                 <li>
-                                    <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}&genre_id=${genre.id}">
+                                    <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}&genreId=${genre.id}">
                                         <c:out value="${genre.name}" />
                                     </a>
                                 </li>
@@ -69,9 +71,9 @@
                         </ul>
                         <ul>
                             <b><fmt:message key="sidebar.authors" bundle="${rb}"/></b>:
-                            <c:forEach var="author" items="${book.authors}">
+                            <c:forEach var="author" items="${bookDto.authors}">
                                 <li>
-                                    <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}&author_id=${author.id}">
+                                    <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}&authorId=${author.id}">
                                         <c:out value="${author.name} ${author.surname}" />
                                     </a>
                                 </li>
@@ -80,6 +82,13 @@
                     </div>
                 </div>
             </c:forEach>
+            <c:if test="${requestScope.currentPage != 1}">
+                <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}<c:if test="${requestScope.authorId != null}">&authorId=${requestScope.authorId}</c:if><c:if test="${requestScope.genreId != null}">&genreId=${requestScope.genreId}</c:if>&page=${requestScope.currentPage - 1}"><fmt:message key="books.prev" bundle="${rb}" /></a>
+            </c:if>
+            <span>${requestScope.currentPage}</span>
+            <c:if test="${!requestScope.isLast}">
+            <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}<c:if test="${requestScope.authorId != null}">&authorId=${requestScope.authorId}</c:if><c:if test="${requestScope.genreId != null}">&genreId=${requestScope.genreId}</c:if>&page=${requestScope.currentPage + 1}"><fmt:message key="books.next" bundle="${rb}" /></a>
+            </c:if>
         </div>
     </div>
 </body>

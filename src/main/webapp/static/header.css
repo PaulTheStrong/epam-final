@@ -57,5 +57,26 @@
     background-color: orangered;
 }
 
+.localization {
+    list-style: none;
+    display: flex;
+}
+
+.localization li {
+    padding: 0 5px;
+}
+
+.localization li:not(:last-child) {
+    border-right: 2px solid orangered;
+}
+
+.localization li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.localization li a:hover {
+    text-decoration: underline;
+}
 
 

@@ -1,5 +1,5 @@
 header.logo=Библиотека
-header.books=Книги
+header.library=Книги
 header.sign_in=Войти
 header.sign_out=Выйти
 
@@ -10,3 +10,8 @@ error.invalidUsernameOrPassword=Неверный логин или пароль
 error.logoutError=Вы не вошли!
 
 success.logoutSuccess=Выход прошел успешно!
+
+profile.my-books=МОИ КНИГИ
+
+books.next=Следующая
+books.prev=Предыдущая

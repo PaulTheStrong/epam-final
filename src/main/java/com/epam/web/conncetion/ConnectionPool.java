@@ -30,7 +30,6 @@ public class ConnectionPool {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            LOGGER.error("No such class exception!" + e);
             throw new RuntimeException(e);
         }
 
@@ -39,7 +38,6 @@ public class ConnectionPool {
                 ProxyConnection connection = new ProxyConnection(DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "123456"), this);
                 availableConnections.offer(connection);
             } catch (SQLException e) {
-                LOGGER.error("Cannot connect to database!" + e);
                 throw new RuntimeException(e);
             }
         }
@@ -80,7 +78,6 @@ public class ConnectionPool {
             connectionsInUse.add(connection);
             return connection;
         } catch (InterruptedException e) {
-            LOGGER.error("Interrupted while trying to get db connection", e);
             throw new DaoException(e);
         } finally {
             connectionsLock.unlock();

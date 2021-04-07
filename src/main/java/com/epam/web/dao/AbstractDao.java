@@ -4,10 +4,7 @@ import com.epam.web.enitity.Identifiable;
 import com.epam.web.exceptions.DaoException;
 import com.epam.web.mappers.RowMapper;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -53,9 +50,32 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
     }
 
     @Override
+    public List<T> getRecordsOnPage(long pageIndex, long elementsOnPage) throws DaoException {
+        long startIndex = pageIndex * elementsOnPage;
+        String query = "SELECT * FROM " + tableName + " LIMIT " + startIndex + ", " + elementsOnPage;
+        return executeQuery(query);
+    }
+
+    @Override
     public Optional<T> getById(long id) throws DaoException {
         String query = "SELECT * FROM " + tableName + " WHERE id=" + id;
         return executeForSingleResult(query, id);
+    }
+
+    protected long count(String query, Object... parameters) throws DaoException {
+        try (PreparedStatement statement = createStatement(query, parameters);
+            ResultSet resultSet = statement.executeQuery()) {
+            resultSet.next();
+            return resultSet.getLong("count");
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+    }
+
+    @Override
+    public long countAll() throws DaoException {
+        String query = "SELECT COUNT(*) as count FROM " + tableName;
+        return count(query);
     }
 
     protected Optional<T> executeForSingleResult(String query, Object... params) throws DaoException {
