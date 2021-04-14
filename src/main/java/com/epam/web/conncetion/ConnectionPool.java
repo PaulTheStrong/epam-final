@@ -3,12 +3,12 @@ package com.epam.web.conncetion;
 import com.epam.web.exceptions.DaoException;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayDeque;
-import java.util.HashSet;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -16,30 +16,41 @@ public class ConnectionPool {
 
     private static final Logger LOGGER = Logger.getRootLogger();
 
-    private static final int TOTAL_CONNECTIONS = 5;
-
     private static ConnectionPool instance;
 
     private final Queue<ProxyConnection> availableConnections = new ArrayDeque<>();
     private final Set<ProxyConnection> connectionsInUse = new HashSet<>();
 
     private final ReentrantLock connectionsLock = new ReentrantLock();
-    private final Semaphore semaphore = new Semaphore(TOTAL_CONNECTIONS);
+    private final Semaphore semaphore;
 
     private ConnectionPool() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        try (InputStream propertiesStream = getClass().getClassLoader().getResourceAsStream("config.properties")){
 
-        for (int i = 0; i < TOTAL_CONNECTIONS; i++) {
-            try {
-                ProxyConnection connection = new ProxyConnection(DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "123456"), this);
-                availableConnections.offer(connection);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            Properties properties = new Properties();
+            properties.load(propertiesStream);
+            String driverName = properties.getProperty("driver.name");
+            Class.forName(driverName);
+
+            int connectionCount = Integer.parseInt(properties.getProperty("connection.count"));
+            semaphore = new Semaphore(connectionCount);
+
+            String connectionString = properties.getProperty("connection.string");
+            String userName = properties.getProperty("user.name");
+            String userPassword = properties.getProperty("user.password");
+
+            for (int i = 0; i < connectionCount; i++) {
+                Connection connection = DriverManager.getConnection(connectionString, userName, userPassword);
+                ProxyConnection proxyConnection = new ProxyConnection(connection, this);
+                availableConnections.offer(proxyConnection);
             }
+
+        } catch (IOException e) {
+            throw new ConnectionException("Config file not found : " + e);
+        } catch (ClassNotFoundException e) {
+            throw new ConnectionException("Driver not found : " + e);
+        } catch (SQLException e) {
+            throw new ConnectionException("Cannot create exception : " + e);
         }
     }
 

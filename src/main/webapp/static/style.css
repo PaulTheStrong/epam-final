@@ -186,3 +186,7 @@ body {
     width: 100%;
     padding-bottom: 15px;
 }
+
+.flex-column {
+    flex-direction: column;
+}

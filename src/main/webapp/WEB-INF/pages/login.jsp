@@ -16,9 +16,9 @@
         <div class="login-form">
             <form action="${pageContext.request.contextPath}/controller" method="post">
                 <input type="hidden" name="command" value="login">
-                <input class="input-field" type="text" name="login" placeholder="Login" value="${requestScope.login}">
-                <input class="input-field" type="password" name="password" placeholder="Password">
-                <input class="submit-btn" type="submit" value="Login">
+                <input class="input-field" type="text" name="login" placeholder="Login" value="${requestScope.login}" />
+                <input class="input-field" type="password" name="password" placeholder="Password" />
+                <input class="submit-btn" type="submit" value="<fmt:message key="header.login" bundle="${br}"/>">
             </form>
             <c:if test="${requestScope.errorMessage != null}">
                 <div class="error-box">

@@ -26,8 +26,15 @@ public class ShowLibraryCommand implements Command {
         String authorIdString = request.getParameter("authorId");
         String genreIdString = request.getParameter("genreId");
 
+        HttpSession session = request.getSession();
+        Book orderedBook = (Book) session.getAttribute("orderedBook");
+        if (orderedBook != null) {
+            request.setAttribute("orderedBook", orderedBook);
+            session.removeAttribute("orderedBook");
+        }
+
         long page = Long.parseLong(Optional.ofNullable(request.getParameter("page")).orElse("1"));
-        int elementsOnPage = 2;
+        int elementsOnPage = 5;
         boolean isLast;
 
         if (authorIdString != null) {

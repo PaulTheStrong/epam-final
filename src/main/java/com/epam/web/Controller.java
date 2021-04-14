@@ -36,12 +36,11 @@ public class Controller extends HttpServlet {
             return;
         }
         Command command = commandFactory.create(commandType);
-        CommandResult result = CommandResult.forward("WEB-INF/error.jsp");
+        CommandResult result = null;
         try {
             result = command.execute(request, response);
         } catch (ServiceException e) {
-            LOGGER.error("Service Exception: ",  e);
-            request.setAttribute("errorMessage", e.getMessage());
+            throw new ServletException(e);
         }
         boolean isRedirect = result.isRedirect();
         String page = result.getPage();

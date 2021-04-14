@@ -48,8 +48,12 @@
             </div>
         </div>
         <div class="books">
-            <c:forEach var="bookDto" items="${requestScope.bookList}">
-                <c:set var="book" value="${bookDto.book}" />
+            <c:if test="${requestScope.orderedBook != null}">
+                <div class="success-box" >
+                <fmt:message key="success.orderBookStart" bundle="${rb}" /> ${requestScope.orderedBook.titleRu} <fmt:message key="success.orderBookEnd" bundle="${rb}"/>
+                </div>
+            </c:if>
+            <c:forEach var="book" items="${requestScope.bookList}">
                 <div class="book">
                     <div class="book-image">
                         <img src="${book.imagePath}" alt="">
@@ -61,7 +65,7 @@
                         <c:out value="${book.descriptionRu}" />
                         <ul>
                             <b><fmt:message key="sidebar.genres" bundle="${rb}"/></b>:
-                            <c:forEach var="genre" items="${bookDto.genres}" >
+                            <c:forEach var="genre" items="${book.genres}" >
                                 <li>
                                     <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}&genreId=${genre.id}">
                                         <c:out value="${genre.name}" />
@@ -71,7 +75,7 @@
                         </ul>
                         <ul>
                             <b><fmt:message key="sidebar.authors" bundle="${rb}"/></b>:
-                            <c:forEach var="author" items="${bookDto.authors}">
+                            <c:forEach var="author" items="${book.authors}">
                                 <li>
                                     <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}&authorId=${author.id}">
                                         <c:out value="${author.name} ${author.surname}" />
@@ -79,6 +83,14 @@
                                 </li>
                             </c:forEach>
                         </ul>
+                        <c:if test="${sessionScope.user != null}">
+                        <form method="post" action="${pageContext.request.contextPath}/controller">
+                            <input type="hidden" name="command" value="orderBook" />
+                            <input type="hidden" name="bookId" value="${book.id}" />
+                            <input type="hidden" name="userId" value="${sessionScope.user.id}" />
+                            <input type="submit" name="submit" value="<fmt:message bundle="${rb}" key="books.order" />">
+                        </form>
+                        </c:if>
                     </div>
                 </div>
             </c:forEach>

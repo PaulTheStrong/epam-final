@@ -1,9 +1,7 @@
 create table books(
     id BIGINT UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    title_en VARCHAR(255),
-    title_ru VARCHAR(255),
-    description_ru VARCHAR(255),
-    description_en VARCHAR(255),
+    title VARCHAR(255),
+    description VARCHAR(255),
     image_path VARCHAR(255)
 );
 
@@ -20,7 +18,7 @@ create table book_orders(
     id BIGINT UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     user_id BIGINT,
     book_id BIGINT,
-    status ENUM('NEW', 'ACTIVE', 'FINISHED', 'DICLINED') DEFAULT 'NEW',
+    status ENUM('ORDERED', 'ACCEPTED', 'DICLINED', 'GIVEN', 'FINISHED') DEFAULT 'ORDERED',
     start_date DATE,
     end_date DATE,
     FOREIGN KEY (user_id) REFERENCES users(id),

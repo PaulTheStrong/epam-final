@@ -27,7 +27,7 @@ public class GenreDaoImpl extends AbstractDao<Genre> implements GenreDao {
     }
 
     @Override
-    public List<Genre> getAllByBookId(long bookId) throws DaoException {
+    public List<Genre> findAllByBookId(long bookId) throws DaoException {
         return executeQuery(GET_ALL_BY_AUTHOR_ID, bookId);
     }
 

@@ -21,6 +21,13 @@ public class PageAccessFilter implements Filter {
         String command = request.getParameter("command");
         if (user == null && !"login".equals(command)) {
             servletRequest.getRequestDispatcher("WEB-INF/pages/login.jsp").forward(servletRequest, servletResponse);
+            return;
+        }
+
+        if (user != null && "login".equals(command)) {
+            request.setAttribute("errorMessage", "error.relogin");
+            servletRequest.getRequestDispatcher("WEB-INF/pages/info.jsp").forward(servletRequest, servletResponse);
+            return;
         }
 
         filterChain.doFilter(servletRequest, servletResponse);

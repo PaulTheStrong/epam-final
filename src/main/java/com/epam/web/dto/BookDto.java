@@ -8,7 +8,7 @@ import java.util.List;
 
 public class BookDto {
 
-    private Book book;
+    private final Book book;
     private List<Genre> genres;
     private List<Author> authors;
 
@@ -18,12 +18,52 @@ public class BookDto {
         this.authors = authors;
     }
 
-    public Book getBook() {
-        return book;
+    public long getId() {
+        return book.getId();
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setId(long id) {
+        book.setId(id);
+    }
+
+    public String getTitleRu() {
+        return book.getTitleRu();
+    }
+
+    public void setTitleRu(String titleRu) {
+        book.setTitleRu(titleRu);
+    }
+
+    public String getTitleEn() {
+        return book.getTitleEn();
+    }
+
+    public void setTitleEn(String titleEn) {
+        book.setTitleEn(titleEn);
+    }
+
+    public String getDescriptionRu() {
+        return book.getDescriptionRu();
+    }
+
+    public void setDescriptionRu(String descriptionRu) {
+        book.setDescriptionRu(descriptionRu);
+    }
+
+    public String getDescriptionEn() {
+        return book.getDescriptionEn();
+    }
+
+    public void setDescriptionEn(String descriptionEn) {
+        book.setDescriptionEn(descriptionEn);
+    }
+
+    public String getImagePath() {
+        return book.getImagePath();
+    }
+
+    public void setImagePath(String imagePath) {
+        book.setImagePath(imagePath);
     }
 
     public List<Genre> getGenres() {

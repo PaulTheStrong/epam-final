@@ -58,36 +58,36 @@ public class BookDaoImpl extends AbstractDao<Book> implements BookDao {
     }
 
     @Override
-    public List<Book> getBooksByAuthorId(long authorId) throws DaoException {
+    public List<Book> findBooksByAuthorId(long authorId) throws DaoException {
         return executeQuery(GET_BOOKS_BY_AUTHOR_ID, authorId);
     }
 
     @Override
-    public List<Book> getBooksByGenreId(long genreId) throws DaoException {
+    public List<Book> findBooksByGenreId(long genreId) throws DaoException {
         return executeQuery(GET_BOOKS_BY_GENRE_ID, genreId);
     }
 
     @Override
-    public List<Book> getBooksByAuthorId(long authorId, long pageIndex, long elementsOnPage) throws DaoException {
+    public List<Book> findBooksByAuthorId(long authorId, long pageIndex, long elementsOnPage) throws DaoException {
         long startIndex = pageIndex * elementsOnPage;
         String query = GET_BOOKS_BY_AUTHOR_ID + " LIMIT " + startIndex + ", " + elementsOnPage;
         return executeQuery(query, authorId);
     }
 
     @Override
-    public List<Book> getBooksByGenreId(long genreId, long pageIndex, long elementsOnPage) throws DaoException {
+    public List<Book> findBooksByGenreId(long genreId, long pageIndex, long elementsOnPage) throws DaoException {
         long startIndex = pageIndex * elementsOnPage;
         String query = GET_BOOKS_BY_GENRE_ID + " LIMIT " + startIndex + ", " + elementsOnPage;
         return executeQuery(query, genreId);
     }
 
     @Override
-    public List<Book> getBooksByTitle(String title) {
+    public List<Book> findBooksByTitle(String title) {
         throw new NotImplementedException();
     }
 
     @Override
-    public List<Book> getBooksByDescription(String description) {
+    public List<Book> findBooksByDescription(String description) {
         throw new NotImplementedException();
     }
 

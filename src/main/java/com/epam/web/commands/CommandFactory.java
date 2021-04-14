@@ -17,6 +17,8 @@ public class CommandFactory {
                 return new ShowPageCommand();
             case "profile":
                 return new ProfileCommand();
+            case "orderBook":
+                return new OrderBookCommand();
             default:
                 throw new IllegalArgumentException("Unknown command: " +  type);
         }

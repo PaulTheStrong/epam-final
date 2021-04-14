@@ -35,7 +35,7 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         return result;
     }
 
-    private PreparedStatement createStatement(String query, Object... params) throws SQLException {
+    protected PreparedStatement createStatement(String query, Object... params) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         for (int i = 0; i < params.length; i++) {
             preparedStatement.setObject(i + 1, params[i]);
@@ -43,22 +43,21 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         return preparedStatement;
     }
 
-    @Override
-    public List<T> getAll() throws DaoException {
+    public List<T> findAll() throws DaoException {
         String query = "SELECT * FROM " + tableName;
         return executeQuery(query);
     }
 
     @Override
-    public List<T> getRecordsOnPage(long pageIndex, long elementsOnPage) throws DaoException {
+    public List<T> findRecordsOnPage(long pageIndex, long elementsOnPage) throws DaoException {
         long startIndex = pageIndex * elementsOnPage;
         String query = "SELECT * FROM " + tableName + " LIMIT " + startIndex + ", " + elementsOnPage;
         return executeQuery(query);
     }
 
     @Override
-    public Optional<T> getById(long id) throws DaoException {
-        String query = "SELECT * FROM " + tableName + " WHERE id=" + id;
+    public Optional<T> findById(long id) throws DaoException {
+        String query = "SELECT * FROM " + tableName + " WHERE id = ?";
         return executeForSingleResult(query, id);
     }
 

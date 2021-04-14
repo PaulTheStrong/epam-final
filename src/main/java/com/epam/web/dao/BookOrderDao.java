@@ -8,12 +8,16 @@ import java.util.Optional;
 
 public interface BookOrderDao extends Dao<BookOrder> {
 
-    List<BookOrder> getAllByUserId(long userId) throws DaoException;
+    List<BookOrder> findAllByUserId(long userId) throws DaoException;
 
     @Override
-    List<BookOrder> getAll() throws DaoException;
+    List<BookOrder> findAll() throws DaoException;
 
     @Override
-    Optional<BookOrder> getById(long id) throws DaoException;
+    Optional<BookOrder> findById(long userId) throws DaoException;
+
+    void createNewOrder(long userId, long bookId) throws DaoException;
+
+    long countAllByUserId(long userId) throws DaoException;
 
 }

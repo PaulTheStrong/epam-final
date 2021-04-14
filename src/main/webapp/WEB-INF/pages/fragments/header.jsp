@@ -36,19 +36,19 @@
 
     <!---   Sign in button    --->
     <c:if test="${sessionScope.user == null}">
-        <fmt:message key="sign_in" var="sign_in" />
+        <fmt:message key="login" var="login"/>
         <form method="get" action="${pageContext.request.contextPath}/controller">
             <input type="hidden" name="command" value="login">
-            <input type="submit" class="login-btn" value="${sign_in}">
+            <input type="submit" class="login-btn" value="${login}">
         </form>
     </c:if>
 
     <!---   Sign out button    --->
     <c:if test="${sessionScope.user != null}">
-        <fmt:message key="sign_out" var="sign_out" />
+        <fmt:message key="signOut" var="signOut" />
         <form method="get" action="${pageContext.request.contextPath}/controller">
             <input type="hidden" name="command" value="logout">
-            <input type="submit" class="login-btn" value="${sign_out}">
+            <input type="submit" class="login-btn" value="${signOut}">
         </form>
     </c:if>
 

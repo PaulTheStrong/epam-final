@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface AuthorDao {
 
-    List<Author> getAllByBookId(long bookId) throws DaoException;
+    List<Author> findAllByBookId(long bookId) throws DaoException;
 
-    List<Author> getAll() throws DaoException;
+    List<Author> findAll() throws DaoException;
 
 }

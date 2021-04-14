@@ -26,7 +26,7 @@ public class AuthorDaoImpl extends AbstractDao<Author> implements AuthorDao {
     }
 
     @Override
-    public List<Author> getAllByBookId(long bookId) throws DaoException {
+    public List<Author> findAllByBookId(long bookId) throws DaoException {
         return executeQuery(GET_ALL_BY_BOOK_ID, bookId);
     }
 

@@ -9,11 +9,11 @@ import java.util.Optional;
 
 public interface Dao<T extends Identifiable> {
 
-    List<T> getAll() throws DaoException;
+    List<T> findAll() throws DaoException;
 
-    List<T> getRecordsOnPage(long pageIndex, long elementsOnPage) throws DaoException;
+    List<T> findRecordsOnPage(long pageIndex, long elementsOnPage) throws DaoException;
 
-    Optional<T> getById(long id) throws DaoException;
+    Optional<T> findById(long id) throws DaoException;
 
     long countAll() throws DaoException;
 
