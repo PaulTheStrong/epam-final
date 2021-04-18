@@ -1,7 +1,7 @@
 package com.epam.web.dao;
 
 import com.epam.web.enitity.Book;
-import com.epam.web.exceptions.DaoException;
+import com.epam.web.exception.DaoException;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,4 +26,10 @@ public interface BookDao {
     long countBooksByGenreId(long genreId) throws DaoException;
     long countBooksByAuthorId(long bookId) throws DaoException;
 
+    Optional<Long> findLastId() throws DaoException;
+
+    void increaseQuantityById(long id) throws DaoException;
+    void decreaseQuantityById(long id) throws DaoException;
+
+    void save(Book book) throws DaoException;
 }

@@ -1,4 +1,4 @@
-package com.epam.web.exceptions;
+package com.epam.web.exception;
 
 public class DaoException extends Exception {
     public DaoException() {

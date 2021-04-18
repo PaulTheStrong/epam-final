@@ -1,8 +1,9 @@
-package com.epam.web.commands;
+package com.epam.web.command;
 
 import com.epam.web.dao.DaoHelperFactory;
+import com.epam.web.dto.BookDto;
 import com.epam.web.enitity.Book;
-import com.epam.web.exceptions.ServiceException;
+import com.epam.web.exception.ServiceException;
 import com.epam.web.service.BookService;
 import com.epam.web.service.OrderService;
 
@@ -26,7 +27,7 @@ public class OrderBookCommand implements Command {
         long userId = Long.parseLong(request.getParameter("userId"));
         long bookId = Long.parseLong(request.getParameter("bookId"));
         orderService.createNewOrder(userId, bookId);
-        Optional<Book> bookOptional = bookService.getById(bookId);
+        Optional<BookDto> bookOptional = bookService.getById(bookId);
         bookOptional.ifPresent(book -> session.setAttribute("orderedBook", book));
 
         return CommandResult.redirect(request.getContextPath() + "/controller?command=library");

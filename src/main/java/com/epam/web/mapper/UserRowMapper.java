@@ -1,4 +1,4 @@
-package com.epam.web.mappers;
+package com.epam.web.mapper;
 
 import com.epam.web.enitity.Role;
 import com.epam.web.enitity.User;

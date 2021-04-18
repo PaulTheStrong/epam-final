@@ -1,17 +1,19 @@
 package com.epam.web;
 
-import com.epam.web.commands.Command;
-import com.epam.web.commands.CommandFactory;
-import com.epam.web.commands.CommandResult;
-import com.epam.web.exceptions.ServiceException;
+import com.epam.web.command.Command;
+import com.epam.web.command.CommandFactory;
+import com.epam.web.command.CommandResult;
+import com.epam.web.exception.ServiceException;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@MultipartConfig
 public class Controller extends HttpServlet {
 
     private static final CommandFactory commandFactory = new CommandFactory();
@@ -31,6 +33,7 @@ public class Controller extends HttpServlet {
 
     public static void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String commandType = request.getParameter("command");
+        request.setCharacterEncoding("UTF-8");
         if("".equals(commandType)) {
             request.getRequestDispatcher("index.jsp").forward(request, response);
             return;

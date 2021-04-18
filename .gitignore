@@ -25,3 +25,4 @@ hs_err_pid*
 target
 .idea
 Web1.iml
+src/main/webapp/static/images

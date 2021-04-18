@@ -6,19 +6,17 @@ public class Book implements Identifiable {
 
     private long id;
 
-    private String titleRu;
-    private String titleEn;
-    private String descriptionRu;
-    private String descriptionEn;
+    private String title;
+    private String description;
     private String imagePath;
+    private int quantity;
 
-    public Book(long id, String titleRu, String titleEn, String descriptionRu, String descriptionEn, String imagePath) {
+    public Book(long id, String title, String description, String imagePath, int quantity) {
         this.id = id;
-        this.titleRu = titleRu;
-        this.titleEn = titleEn;
-        this.descriptionRu = descriptionRu;
-        this.descriptionEn = descriptionEn;
+        this.title = title;
+        this.description = description;
         this.imagePath = imagePath;
+        this.quantity = quantity;
     }
 
     @Override
@@ -30,36 +28,20 @@ public class Book implements Identifiable {
         this.id = id;
     }
 
-    public String getTitleRu() {
-        return titleRu;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitleRu(String titleRu) {
-        this.titleRu = titleRu;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getTitleEn() {
-        return titleEn;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTitleEn(String titleEn) {
-        this.titleEn = titleEn;
-    }
-
-    public String getDescriptionRu() {
-        return descriptionRu;
-    }
-
-    public void setDescriptionRu(String descriptionRu) {
-        this.descriptionRu = descriptionRu;
-    }
-
-    public String getDescriptionEn() {
-        return descriptionEn;
-    }
-
-    public void setDescriptionEn(String descriptionEn) {
-        this.descriptionEn = descriptionEn;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getImagePath() {
@@ -68,5 +50,13 @@ public class Book implements Identifiable {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

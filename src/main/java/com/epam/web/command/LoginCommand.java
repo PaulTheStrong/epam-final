@@ -1,8 +1,7 @@
-package com.epam.web.commands;
+package com.epam.web.command;
 
 import com.epam.web.enitity.User;
-import com.epam.web.exceptions.DaoException;
-import com.epam.web.exceptions.ServiceException;
+import com.epam.web.exception.ServiceException;
 import com.epam.web.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +15,6 @@ public class LoginCommand implements Command {
     private static final String MAIN_PAGE = "WEB-INF/pages/main.jsp";
 
     private static final String invalidUsernameOrPasswordError = "error.invalidUsernameOrPassword";
-
 
     private final UserService userService;
 

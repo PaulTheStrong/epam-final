@@ -1,4 +1,4 @@
-package com.epam.web.filters;
+package com.epam.web.filter;
 
 import com.epam.web.enitity.User;
 
@@ -19,12 +19,12 @@ public class PageAccessFilter implements Filter {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         String command = request.getParameter("command");
-        if (user == null && !"login".equals(command)) {
+        if (user == null && !("login".equals(command) || "register".equals(command))) {
             servletRequest.getRequestDispatcher("WEB-INF/pages/login.jsp").forward(servletRequest, servletResponse);
             return;
         }
 
-        if (user != null && "login".equals(command)) {
+        if (user != null && ("login".equals(command) || "register".equals(command))) {
             request.setAttribute("errorMessage", "error.relogin");
             servletRequest.getRequestDispatcher("WEB-INF/pages/info.jsp").forward(servletRequest, servletResponse);
             return;

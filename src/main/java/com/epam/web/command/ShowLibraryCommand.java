@@ -1,19 +1,16 @@
-package com.epam.web.commands;
+package com.epam.web.command;
 
-import com.epam.web.dao.DaoHelper;
 import com.epam.web.dao.DaoHelperFactory;
 import com.epam.web.dto.BookDto;
 import com.epam.web.enitity.Author;
 import com.epam.web.enitity.Book;
 import com.epam.web.enitity.Genre;
-import com.epam.web.exceptions.ServiceException;
+import com.epam.web.exception.ServiceException;
 import com.epam.web.service.BookService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +24,7 @@ public class ShowLibraryCommand implements Command {
         String genreIdString = request.getParameter("genreId");
 
         HttpSession session = request.getSession();
-        Book orderedBook = (Book) session.getAttribute("orderedBook");
+        BookDto orderedBook = (BookDto) session.getAttribute("orderedBook");
         if (orderedBook != null) {
             request.setAttribute("orderedBook", orderedBook);
             session.removeAttribute("orderedBook");
@@ -51,8 +48,9 @@ public class ShowLibraryCommand implements Command {
             books = bookService.getBooksOnPage(page - 1, elementsOnPage);
             isLast = bookService.countBooks() <= page * elementsOnPage;
         }
-        List<Genre> genres = bookService.getAllGenres();
-        List<Author> authors = bookService.getAllAuthors();
+
+        List<Genre> genres = bookService.getAllGenresWhereBookAttached();
+        List<Author> authors = bookService.getAllAuthorsWhereBookAttached();
 
 
         request.setAttribute("currentPage", page);

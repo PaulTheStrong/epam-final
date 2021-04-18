@@ -1,6 +1,6 @@
 package com.epam.web.conncetion;
 
-import com.epam.web.exceptions.DaoException;
+import com.epam.web.exception.DaoException;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;

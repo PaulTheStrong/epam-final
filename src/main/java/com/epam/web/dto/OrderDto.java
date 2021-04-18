@@ -2,17 +2,19 @@ package com.epam.web.dto;
 
 import com.epam.web.enitity.*;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 public class OrderDto {
 
     private final BookOrder bookOrder;
     private final BookDto bookDto;
+    private final User user;
 
-    public OrderDto(BookOrder bookOrder, BookDto bookDto) {
+    public OrderDto(BookOrder bookOrder, BookDto bookDto, User user) {
         this.bookOrder = bookOrder;
         this.bookDto = bookDto;
+        this.user = user;
     }
 
     public long getId() {
@@ -39,12 +41,12 @@ public class OrderDto {
         return bookOrder.getEndDate();
     }
 
-    public String getTitleRu() {
-        return bookDto.getTitleRu();
+    public String getTitle() {
+        return bookDto.getTitle();
     }
 
-    public String getDescriptionRu() {
-        return bookDto.getDescriptionRu();
+    public String getDescription() {
+        return bookDto.getDescription();
     }
 
     public String getImagePath() {
@@ -57,5 +59,17 @@ public class OrderDto {
 
     public List<Author> getAuthors() {
         return bookDto.getAuthors();
+    }
+
+    public String getUserName() {
+        return user.getName();
+    }
+
+    public String getUserSurname() {
+        return user.getSurname();
+    }
+
+    public Role getUserRole() {
+        return user.getRole();
     }
 }

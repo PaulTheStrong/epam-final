@@ -1,8 +1,8 @@
 package com.epam.web.dao;
 
 import com.epam.web.enitity.Identifiable;
-import com.epam.web.exceptions.DaoException;
-import com.epam.web.mappers.RowMapper;
+import com.epam.web.exception.DaoException;
+import com.epam.web.mapper.RowMapper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -85,6 +85,14 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
             return Optional.of(entities.get(0));
         } else {
             return Optional.empty();
+        }
+    }
+
+    protected void execute(String query, Object... params) throws DaoException {
+        try (PreparedStatement statement = createStatement(query, params)) {
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DaoException(e);
         }
     }
 }

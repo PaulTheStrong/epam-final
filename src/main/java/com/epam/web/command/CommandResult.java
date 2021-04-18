@@ -1,4 +1,4 @@
-package com.epam.web.commands;
+package com.epam.web.command;
 
 public class CommandResult {
 

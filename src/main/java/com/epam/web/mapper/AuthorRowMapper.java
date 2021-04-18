@@ -1,7 +1,6 @@
-package com.epam.web.mappers;
+package com.epam.web.mapper;
 
 import com.epam.web.enitity.Author;
-import com.epam.web.enitity.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,9 +1,8 @@
 package com.epam.web.dao;
 
 import com.epam.web.enitity.Identifiable;
-import com.epam.web.exceptions.DaoException;
+import com.epam.web.exception.DaoException;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 

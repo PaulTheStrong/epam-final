@@ -50,7 +50,7 @@
         <div class="books">
             <c:if test="${requestScope.orderedBook != null}">
                 <div class="success-box" >
-                <fmt:message key="success.orderBookStart" bundle="${rb}" /> ${requestScope.orderedBook.titleRu} <fmt:message key="success.orderBookEnd" bundle="${rb}"/>
+                <fmt:message key="success.orderBookStart" bundle="${rb}" /> ${requestScope.orderedBook.title} <fmt:message key="success.orderBookEnd" bundle="${rb}"/>
                 </div>
             </c:if>
             <c:forEach var="book" items="${requestScope.bookList}">
@@ -60,11 +60,11 @@
                     </div>
                     <div class="book-description">
                         <div class="book-title">
-                            <h3><c:out value="${book.titleRu}"/></h3>
+                            <h3><c:out value="${book.title}"/></h3>
                         </div>
-                        <c:out value="${book.descriptionRu}" />
+                        <c:out value="${book.description}" />
                         <ul>
-                            <b><fmt:message key="sidebar.genres" bundle="${rb}"/></b>:
+                            <b><fmt:message key="books.genres" bundle="${rb}"/></b>:
                             <c:forEach var="genre" items="${book.genres}" >
                                 <li>
                                     <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}&genreId=${genre.id}">
@@ -74,7 +74,7 @@
                             </c:forEach>
                         </ul>
                         <ul>
-                            <b><fmt:message key="sidebar.authors" bundle="${rb}"/></b>:
+                            <b><fmt:message key="books.authors" bundle="${rb}"/></b>:
                             <c:forEach var="author" items="${book.authors}">
                                 <li>
                                     <a href="${pageContext.request.contextPath}/controller?command=${libraryCommand}&authorId=${author.id}">
@@ -83,12 +83,13 @@
                                 </li>
                             </c:forEach>
                         </ul>
-                        <c:if test="${sessionScope.user != null}">
+                        <p><fmt:message key="books.quantity" bundle="${rb}"/>: <c:out value="${book.quantity}"/></p>
+                        <c:if test="${sessionScope.user != null && book.quantity != 0}">
                         <form method="post" action="${pageContext.request.contextPath}/controller">
                             <input type="hidden" name="command" value="orderBook" />
                             <input type="hidden" name="bookId" value="${book.id}" />
                             <input type="hidden" name="userId" value="${sessionScope.user.id}" />
-                            <input type="submit" name="submit" value="<fmt:message bundle="${rb}" key="books.order" />">
+                            <input type="submit" name="submit" value="<fmt:message bundle="${rb}" key="books.order" />" class="submit-btn"/>
                         </form>
                         </c:if>
                     </div>

@@ -2,7 +2,7 @@ package com.epam.web.dao;
 
 import com.epam.web.conncetion.ConnectionPool;
 import com.epam.web.conncetion.ProxyConnection;
-import com.epam.web.exceptions.DaoException;
+import com.epam.web.exception.DaoException;
 
 import java.sql.SQLException;
 

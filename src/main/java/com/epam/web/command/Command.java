@@ -1,6 +1,6 @@
-package com.epam.web.commands;
+package com.epam.web.command;
 
-import com.epam.web.exceptions.ServiceException;
+import com.epam.web.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

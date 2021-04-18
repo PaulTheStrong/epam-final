@@ -1,14 +1,14 @@
 package com.epam.web.dao;
 
 import com.epam.web.enitity.Book;
-import com.epam.web.exceptions.DaoException;
-import com.epam.web.mappers.BookRowMapper;
+import com.epam.web.exception.DaoException;
+import com.epam.web.mapper.BookRowMapper;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +52,13 @@ public class BookDaoImpl extends AbstractDao<Book> implements BookDao {
                     "    on g.id = b_g.genre_id\n" +
                     "    WHERE g.id = ?";
 
+    private static final String INCREASE_QUANTITY_BY_ID = "UPDATE books SET quantity=quantity+1 WHERE id=?";
+    private static final String DECREASE_QUANTITY_BY_ID = "UPDATE books SET quantity=quantity-1 WHERE id=?";
+
+    private static final String SAVE_BOOK_WITH_ID = "UPDATE books SET title=?, description=?, quantity=?, image_path=? WHERE id=?";
+    private static final String ADD_NEW_BOOK = "INSERT INTO books (title, description, quantity, image_path) VALUES (?, ?, ?, ?)";
+    private static final String REMOVE_BY_ID = "DELETE FROM books WHERE id=?";
+    private static final String FIND_LAST_ID = "SELECT max(id) as max FROM books";
 
     public BookDaoImpl(Connection connection, AuthorDao authorDao, GenreDao genreDao) {
         super(connection, new BookRowMapper(), TABLE_NAME);
@@ -103,11 +110,37 @@ public class BookDaoImpl extends AbstractDao<Book> implements BookDao {
 
     @Override
     public void save(Book entity) throws DaoException {
-        throw new NotImplementedException();
+        if (entity.getId() != 0) {
+            execute(SAVE_BOOK_WITH_ID, entity.getTitle(), entity.getDescription(), entity.getQuantity(), entity.getImagePath(), entity.getId());
+        } else {
+            execute(ADD_NEW_BOOK, entity.getTitle(), entity.getDescription(), entity.getQuantity(), entity.getImagePath());
+        }
     }
 
     @Override
-    public void removeById(long id) {
-        throw new NotImplementedException();
+    public void removeById(long id) throws DaoException {
+        execute(REMOVE_BY_ID, id);
+    }
+
+
+    public void increaseQuantityById(long id) throws DaoException {
+        execute(INCREASE_QUANTITY_BY_ID, id);
+    }
+
+    public void decreaseQuantityById(long id) throws DaoException {
+        execute(DECREASE_QUANTITY_BY_ID, id);
+    }
+
+    public Optional<Long> findLastId() throws DaoException {
+        try(PreparedStatement preparedStatement = createStatement(FIND_LAST_ID);
+            ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                return Optional.of(resultSet.getLong("max"));
+            } else {
+                return Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
     }
 }

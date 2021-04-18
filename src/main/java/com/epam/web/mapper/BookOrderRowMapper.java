@@ -1,14 +1,14 @@
-package com.epam.web.mappers;
+package com.epam.web.mapper;
 
 import com.epam.web.enitity.BookOrder;
 import com.epam.web.enitity.BookOrderStatus;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Locale;
 
-public class BookOrderMapper implements RowMapper<BookOrder> {
+public class BookOrderRowMapper implements RowMapper<BookOrder> {
 
     private static final String ID_COLUMN = "id";
     private static final String USER_ID_COLUMN = "user_id";

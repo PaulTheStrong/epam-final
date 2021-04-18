@@ -1,6 +1,6 @@
 package com.epam.web.enitity;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class BookOrder implements Identifiable {
 

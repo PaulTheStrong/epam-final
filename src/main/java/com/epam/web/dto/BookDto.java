@@ -9,8 +9,8 @@ import java.util.List;
 public class BookDto {
 
     private final Book book;
-    private List<Genre> genres;
-    private List<Author> authors;
+    private final List<Genre> genres;
+    private final List<Author> authors;
 
     public BookDto(Book book, List<Genre> genres, List<Author> authors) {
         this.book = book;
@@ -22,63 +22,27 @@ public class BookDto {
         return book.getId();
     }
 
-    public void setId(long id) {
-        book.setId(id);
+    public String getTitle() {
+        return book.getTitle();
     }
 
-    public String getTitleRu() {
-        return book.getTitleRu();
+    public String getDescription() {
+        return book.getDescription();
     }
 
-    public void setTitleRu(String titleRu) {
-        book.setTitleRu(titleRu);
-    }
-
-    public String getTitleEn() {
-        return book.getTitleEn();
-    }
-
-    public void setTitleEn(String titleEn) {
-        book.setTitleEn(titleEn);
-    }
-
-    public String getDescriptionRu() {
-        return book.getDescriptionRu();
-    }
-
-    public void setDescriptionRu(String descriptionRu) {
-        book.setDescriptionRu(descriptionRu);
-    }
-
-    public String getDescriptionEn() {
-        return book.getDescriptionEn();
-    }
-
-    public void setDescriptionEn(String descriptionEn) {
-        book.setDescriptionEn(descriptionEn);
+    public int getQuantity() {
+        return book.getQuantity();
     }
 
     public String getImagePath() {
         return book.getImagePath();
     }
 
-    public void setImagePath(String imagePath) {
-        book.setImagePath(imagePath);
-    }
-
     public List<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
-    }
-
     public List<Author> getAuthors() {
         return authors;
-    }
-
-    public void setAuthors(List<Author> authors) {
-        this.authors = authors;
     }
 }

@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
-<fmt:setLocale value="${sessionScope.locale.language != null ? sessionScope.locale.language : 'ru'}" scope="session"/>
+<fmt:setLocale value="${sessionScope.language != null ? sessionScope.language : 'ru'}" scope="session"/>
 <fmt:setBundle basename="pagecontent" var="rb" />
 
 <html>
@@ -26,11 +26,11 @@
                     </div>
                     <div class="book-description">
                         <div class="book-title">
-                            <h3><c:out value="${order.titleRu}"/></h3>
+                            <h3><c:out value="${order.title}"/></h3>
                         </div>
-                        <c:out value="${order.descriptionRu}" />
+                        <c:out value="${order.description}" />
                         <ul>
-                            <b><fmt:message key="sidebar.authors" bundle="${rb}"/></b>:
+                            <b><fmt:message key="books.authors" bundle="${rb}"/></b>:
                             <c:forEach var="author" items="${order.authors}">
                                 <li>
                                     <a href="${pageContext.request.contextPath}/controller?command=profile&authorId=${author.id}">
@@ -39,6 +39,19 @@
                                 </li>
                             </c:forEach>
                         </ul>
+                        <b><fmt:message key="orders.status" bundle="${rb}" /></b>:
+                        <c:choose>
+                            <c:when test="${order.orderStatus == 'ORDERED'}"><fmt:message key="orders.status.ordered" bundle="${rb}" /></c:when>
+                            <c:when test="${order.orderStatus == 'IN_HAND'}"><fmt:message key="orders.status.in_hand" bundle="${rb}" /></c:when>
+                            <c:when test="${order.orderStatus == 'READ_ROOM'}"><fmt:message key="orders.status.read_room" bundle="${rb}" /></c:when>
+                            <c:when test="${order.orderStatus == 'RETURNED'}"><fmt:message key="orders.status.returned" bundle="${rb}" /></c:when>
+                        </c:choose>
+
+                        <c:if test="${order.orderStatus == 'IN_HAND'}">
+                            <b><fmt:formatDate value="${order.startDate}" /></b>
+                            <fmt:message key="orders.status.to" bundle="${rb}"/>
+                            <b><fmt:formatDate value="${order.endDate}" /></b>
+                        </c:if>
                     </div>
                 </div>
             </c:forEach>

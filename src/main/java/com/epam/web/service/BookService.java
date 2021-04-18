@@ -5,12 +5,14 @@ import com.epam.web.dto.BookDto;
 import com.epam.web.enitity.Author;
 import com.epam.web.enitity.Book;
 import com.epam.web.enitity.Genre;
-import com.epam.web.exceptions.DaoException;
-import com.epam.web.exceptions.ServiceException;
+import com.epam.web.exception.DaoException;
+import com.epam.web.exception.ServiceException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static java.util.Optional.empty;
 
 public class BookService {
 
@@ -78,6 +80,24 @@ public class BookService {
         }
     }
 
+    public List<Author> getAllAuthorsWhereBookAttached() throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            AuthorDao authorDao = daoHelper.createAuthorDao();
+            return authorDao.findAllWhereBookAttached();
+        } catch (DaoException e) {
+            throw new ServiceException();
+        }
+    }
+
+    public List<Genre> getAllGenresWhereBookAttached() throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            GenreDao genreDao = daoHelper.createGenreDao();
+            return genreDao.findAllWhereBookAttached();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
     public long countBooks() throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             BookDao bookDao = daoHelper.createBookDao();
@@ -105,26 +125,79 @@ public class BookService {
         }
     }
 
+    public void save(Book book, List<String> names, List<String> surnames, List<String> genres) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            BookDao bookDao = daoHelper.createBookDao();
+            GenreDao genreDao = daoHelper.createGenreDao();
+            AuthorDao authorDao = daoHelper.createAuthorDao();
 
-    private List<BookDto> createBookDtoList(List<Book> books, DaoHelper daoHelper) throws DaoException {
+            daoHelper.startTransaction();
+            bookDao.save(book);
+
+            genreDao.deleteMappingsByBookId(book.getId());
+            genreDao.insertIfNotExist(genres);
+            genreDao.mapGenresWithBookId(genres, book.getId());
+
+            authorDao.deleteMappingsByBookId(book.getId());
+            authorDao.insertIfNotExist(names, surnames);
+            authorDao.mapAuthorsWithBookId(names, surnames, book.getId());
+
+            daoHelper.endTransaction();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+
+    private List<BookDto> createBookDtoList(List<Book> books, DaoHelper daoHelper) throws ServiceException {
         List<BookDto> bookDtoList = new ArrayList<>();
-
-        GenreDao genreDao = daoHelper.createGenreDao();
-        AuthorDao authorDao = daoHelper.createAuthorDao();
-
         for (Book book : books) {
-            long id = book.getId();
-            List<Genre> genres = genreDao.findAllByBookId(id);
-            List<Author> authors = authorDao.findAllByBookId(id);
-            bookDtoList.add(new BookDto(book, genres, authors));
+            bookDtoList.add(createBookDto(book, daoHelper));
         }
         return bookDtoList;
     }
 
-    public Optional<Book> getById(long bookId) throws ServiceException {
+    private BookDto createBookDto(Book book, DaoHelper daoHelper) throws ServiceException {
+        GenreDao genreDao = daoHelper.createGenreDao();
+        AuthorDao authorDao = daoHelper.createAuthorDao();
+
+        try {
+            long id = book.getId();
+
+            List<Genre> genres = genreDao.findAllByBookId(id);
+            List<Author> authors = authorDao.findAllByBookId(id);
+
+            return new BookDto(book, genres, authors);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public Optional<BookDto> getById(long bookId) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             BookDao dao = daoHelper.createBookDao();
-            return dao.findById(bookId);
+            Optional<Book> bookOptional = dao.findById(bookId);
+            Optional<BookDto> bookDtoOptional = Optional.empty();
+            if (bookOptional.isPresent()) {
+                Book book = bookOptional.get();
+                BookDto bookDto = createBookDto(book, daoHelper);
+                bookDtoOptional = Optional.of(bookDto);
+            }
+            return bookDtoOptional;
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public Long getLastId() throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()){
+            BookDao bookDao = daoHelper.createBookDao();
+            Optional<Long> lastId = bookDao.findLastId();
+            if (lastId.isPresent()) {
+                return lastId.get();
+            } else {
+                throw new ServiceException("Last id not found!");
+            }
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

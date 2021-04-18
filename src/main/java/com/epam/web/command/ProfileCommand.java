@@ -1,11 +1,9 @@
-package com.epam.web.commands;
+package com.epam.web.command;
 
 import com.epam.web.dao.DaoHelperFactory;
 import com.epam.web.dto.OrderDto;
-import com.epam.web.enitity.Author;
-import com.epam.web.enitity.Genre;
 import com.epam.web.enitity.User;
-import com.epam.web.exceptions.ServiceException;
+import com.epam.web.exception.ServiceException;
 import com.epam.web.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;

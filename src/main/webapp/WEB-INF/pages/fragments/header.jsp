@@ -9,7 +9,13 @@
 
 <style>
 .navigation li {
-    width: ${sessionScope.user != null ? 50 : 100}%;
+    width:
+    <c:choose>
+        <c:when test="${sessionScope.user == null}">100%</c:when>
+        <c:when test="${sessionScope.user.role == 'READER'}">50%</c:when>
+        <c:when test="${sessionScope.user.role == 'LIBRARIAN'}">33.3%</c:when>
+        <c:when test="${sessionScope.user.role == 'ADMIN'}">25%</c:when>
+    </c:choose>;
 }
 </style>
 
@@ -26,12 +32,30 @@
 
     <!---     Navigation       --->
     <ul class="navigation">
-        <li><a href="${pageContext.request.contextPath}/controller?command=library">
-            <fmt:message key="library" />
-        </a></li>
+        <c:choose>
+            <c:when test="${sessionScope.user == null}">
+                <li><a href="${pageContext.request.contextPath}/controller?command=library"><fmt:message key="library" /></a></li>
+            </c:when>
+            <c:when test="${sessionScope.user.role == 'READER'}">
+                <li><a href="${pageContext.request.contextPath}/controller?command=library"><fmt:message key="library" /></a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=profile">${sessionScope.user.login}</a></li>
+            </c:when>
+            <c:when test="${sessionScope.user.role == 'LIBRARIAN'}">
+                <li><a href="${pageContext.request.contextPath}/controller?command=library"><fmt:message key="library" /></a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=profile">${sessionScope.user.login}</a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=librarian"><fmt:message key="librarian" /></a></li>
+            </c:when>
+            <c:when test="${sessionScope.user.role == 'ADMIN'}">
+                <li><a href="${pageContext.request.contextPath}/controller?command=library"><fmt:message key="library" /></a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=profile">${sessionScope.user.login}</a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=librarian"><fmt:message key="librarian" /></a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=admin"><fmt:message key="admin" /></a></li>
+            </c:when>
+        </c:choose>
         <c:if test="${sessionScope.user != null}">
-            <li><a href="${pageContext.request.contextPath}/controller?command=profile">${sessionScope.user.login}</a></li>
+
         </c:if>
+
     </ul>
 
     <!---   Sign in button    --->
