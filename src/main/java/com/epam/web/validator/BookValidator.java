@@ -19,7 +19,7 @@ public class BookValidator {
     }
 
     public String validateDescription(String description) {
-        if (description.length() > 255) {
+        if (description.length() > 1024) {
             return EDIT_ERROR_DESCRIPTION_TOO_LONG_DESCRIPTION;
         }
         return OK;
@@ -35,6 +35,13 @@ public class BookValidator {
             return EDIT_ERROR_QUANTITY_NOT_NUMBER;
         }
 
+        return OK;
+    }
+
+    public String validateAuthor(String name, String surname) {
+        if (name.length() > 50 || surname.length() > 50) {
+            return "edit.error.author.tooLong";
+        }
         return OK;
     }
 

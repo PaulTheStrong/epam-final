@@ -16,9 +16,33 @@
     <jsp:include page="fragments/header.jsp" />
     <div id="main" class="flex-column">
         <div class="book-orders">
-            <h1>
-               <fmt:message key="profile.myBooks" bundle="${rb}" />
-            </h1>
+            <div class="bookmarks">
+                <h2>
+                    <a href="${pageContext.request.contextPath}/controller?command=profile&requestedStatus=ORDERED">
+                        <fmt:message key="librarian.header.ordered" bundle="${rb}" />
+                    </a>
+                </h2>
+                <h2>
+                    <a href="${pageContext.request.contextPath}/controller?command=profile&requestedStatus=IN_HAND">
+                        <fmt:message key="librarian.header.handedOut" bundle="${rb}" />
+                    </a>
+                </h2>
+                <h2>
+                    <a href="${pageContext.request.contextPath}/controller?command=profile&requestedStatus=READ_ROOM">
+                        <fmt:message key="librarian.header.readingRoom" bundle="${rb}" />
+                    </a>
+                </h2>
+                <h2>
+                    <a href="${pageContext.request.contextPath}/controller?command=profile&requestedStatus=OVERDUED">
+                        <fmt:message key="librarian.header.overdued" bundle="${rb}" />
+                    </a>
+                </h2>
+            </div>
+            <c:if test="${requestScope.successMessage != null}">
+                <div class="success-box">
+                <fmt:message key="${requestScope.successMessage}" bundle="${rb}"/>
+                </div>
+            </c:if>
             <c:forEach var="order" items="${requestScope.userOrders}" >
                 <div class="book">
                     <div class="book-image">
@@ -44,24 +68,27 @@
                             <c:when test="${order.orderStatus == 'ORDERED'}"><fmt:message key="orders.status.ordered" bundle="${rb}" /></c:when>
                             <c:when test="${order.orderStatus == 'IN_HAND'}"><fmt:message key="orders.status.in_hand" bundle="${rb}" /></c:when>
                             <c:when test="${order.orderStatus == 'READ_ROOM'}"><fmt:message key="orders.status.read_room" bundle="${rb}" /></c:when>
-                            <c:when test="${order.orderStatus == 'RETURNED'}"><fmt:message key="orders.status.returned" bundle="${rb}" /></c:when>
+                            <c:when test="${order.orderStatus == 'OVERDUED'}"><fmt:message key="orders.status.in_hand" bundle="${rb}" /></c:when>
                         </c:choose>
 
-                        <c:if test="${order.orderStatus == 'IN_HAND'}">
-                            <b><fmt:formatDate value="${order.startDate}" /></b>
-                            <fmt:message key="orders.status.to" bundle="${rb}"/>
-                            <b><fmt:formatDate value="${order.endDate}" /></b>
+                        <c:if test="${order.orderStatus == 'IN_HAND' || order.orderStatus == 'OVERDUED'}">
+                            <span style="<c:if test="${order.orderStatus == 'OVERDUED'}">color:red</c:if>">
+                                <b><fmt:formatDate value="${order.startDate}" /></b>
+                                <fmt:message key="orders.status.to" bundle="${rb}"/>
+                                <b><fmt:formatDate value="${order.endDate}" /></b>
+                                <c:if test="${order.orderStatus == 'OVERDUED'}"><fmt:message key="orders.status.overdued" bundle="${rb}" /></c:if>
+                            </span>
+                        </c:if>
+                        <c:if test="${order.orderStatus == 'ORDERED'}">
+                            <form class="inline-block" method="get">
+                                <input type="hidden" name="command" value="cancelOrder">
+                                <input type="hidden" name="orderId" value="${order.id}">
+                                <input class="submit-btn" type="submit" onclick="return confirm('<fmt:message key="orders.cancel.confirm" bundle="${rb}"/>')" value="<fmt:message key="orders.cancel" bundle="${rb}" />">
+                            </form>
                         </c:if>
                     </div>
                 </div>
             </c:forEach>
-            <c:if test="${requestScope.currentPage != 1}">
-                <a href="${pageContext.request.contextPath}/controller?command=profile<c:if test="${requestScope.authorId != null}">&authorId=${requestScope.authorId}</c:if><c:if test="${requestScope.genreId != null}">&genreId=${requestScope.genreId}</c:if>&page=${requestScope.currentPage - 1}"><fmt:message key="books.prev" bundle="${rb}" /></a>
-            </c:if>
-            <span>${requestScope.currentPage}</span>
-            <c:if test="${!requestScope.isLast}">
-                <a href="${pageContext.request.contextPath}/controller?command=profile<c:if test="${requestScope.authorId != null}">&authorId=${requestScope.authorId}</c:if><c:if test="${requestScope.genreId != null}">&genreId=${requestScope.genreId}</c:if>&page=${requestScope.currentPage + 1}"><fmt:message key="books.next" bundle="${rb}" /></a>
-            </c:if>
         </div>
     </div>
 

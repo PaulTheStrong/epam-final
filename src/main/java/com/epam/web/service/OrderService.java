@@ -38,6 +38,16 @@ public class OrderService {
         }
     }
 
+    public List<OrderDto> getOrdersByStatusAndUserId(BookOrderStatus status, long userId) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            BookOrderDao bookOrderDao = daoHelper.createBookOrderDao();
+            List<BookOrder> orders = bookOrderDao.findAllByStatusAndUserId(status, userId);
+            return fillOrderDtos(daoHelper, orders);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
     public void updateOrder(BookOrder bookOrder) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             BookOrderDao bookOrderDao = daoHelper.createBookOrderDao();
@@ -98,6 +108,32 @@ public class OrderService {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             BookOrderDao bookOrderDao = daoHelper.createBookOrderDao();
             return bookOrderDao.countAllByUserId(userId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+    
+    public void cancelOrder(BookOrder order) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            BookOrderDao bookOrderDao = daoHelper.createBookOrderDao();
+            BookDao bookDao = daoHelper.createBookDao();
+            long bookId = order.getBookId();
+            long orderId = order.getId();
+
+            daoHelper.startTransaction();
+            bookDao.increaseQuantityById(bookId);
+            bookOrderDao.removeById(orderId);
+            daoHelper.endTransaction();
+
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public void removeById(long orderId) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            BookOrderDao bookOrderDao = daoHelper.createBookOrderDao();
+            bookOrderDao.removeById(orderId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

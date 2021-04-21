@@ -32,4 +32,5 @@ public interface BookDao {
     void decreaseQuantityById(long id) throws DaoException;
 
     void save(Book book) throws DaoException;
+    void removeById(long bookId) throws DaoException;
 }

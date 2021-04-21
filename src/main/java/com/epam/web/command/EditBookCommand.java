@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.*;
 
+
 public class EditBookCommand implements Command {
 
     private final BookValidator validator;
@@ -66,25 +67,6 @@ public class EditBookCommand implements Command {
         return CommandResult.forward("WEB-INF/pages/edit-book.jsp");
     }
 
-    private void putErrors(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String titleError = (String) session.getAttribute("titleError");
-        if (titleError != null) {
-            request.setAttribute("titleError", titleError);
-            session.removeAttribute("titleError");
-        }
-        String quantityError = (String) session.getAttribute("quantityError");
-        if (quantityError != null) {
-            request.setAttribute("quantityError", quantityError);
-            session.removeAttribute("quantityError");
-        }
-        String descriptionError = (String) session.getAttribute("descriptionError");
-        if (descriptionError != null) {
-            request.setAttribute("descriptionError", descriptionError);
-            session.removeAttribute("descriptionError");
-        }
-    }
-
     private void post(HttpServletRequest request, DaoHelperFactory daoHelperFactory, long bookId) throws ServiceException, IOException, ServletException {
         boolean isOk = true;
         HttpSession session = request.getSession();
@@ -114,11 +96,21 @@ public class EditBookCommand implements Command {
         }
 
         String[] emptyArray = {};
-        String[] names = Optional.of(request.getParameterValues("name")).orElse(emptyArray);
+        String[] names = Optional.ofNullable(request.getParameterValues("name")).orElse(emptyArray);
         List<String> authorNames = Arrays.asList(names);
-        String[] surnames = Optional.of(request.getParameterValues("surname")).orElse(emptyArray);
-        List<String> authorSurname = Arrays.asList(surnames);
-        String[] genresArray = Optional.of(request.getParameterValues("genre")).orElse(emptyArray);
+        String[] surnames = Optional.ofNullable(request.getParameterValues("surname")).orElse(emptyArray);
+        List<String> authorSurnames = Arrays.asList(surnames);
+        for (int i = 0; i < names.length; i++) {
+            String authorName = authorNames.get(i);
+            String authorSurname = authorSurnames.get(i);
+            String authorsStatus = validator.validateAuthor(authorName, authorSurname);
+            if (!"OK".equals(authorsStatus)){
+                isOk = false;
+                session.setAttribute("authorError", authorsStatus);
+                break;
+            }
+        }
+        String[] genresArray = Optional.ofNullable(request.getParameterValues("genre")).orElse(emptyArray);
         List<String> genres = Arrays.asList(genresArray);
 
         Part part = request.getPart("image");
@@ -132,7 +124,7 @@ public class EditBookCommand implements Command {
 
         BookService bookService = new BookService(daoHelperFactory);
         if (isOk) {
-            bookService.save(book, authorNames, authorSurname, genres);
+            bookService.save(book, authorNames, authorSurnames, genres);
         }
     }
 
@@ -158,6 +150,30 @@ public class EditBookCommand implements Command {
         while (len != -1) {
             out.write(buffer, 0, len);
             len = in.read(buffer);
+        }
+    }
+
+    private void putErrors(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String titleError = (String) session.getAttribute("titleError");
+        if (titleError != null) {
+            request.setAttribute("titleError", titleError);
+            session.removeAttribute("titleError");
+        }
+        String quantityError = (String) session.getAttribute("quantityError");
+        if (quantityError != null) {
+            request.setAttribute("quantityError", quantityError);
+            session.removeAttribute("quantityError");
+        }
+        String descriptionError = (String) session.getAttribute("descriptionError");
+        if (descriptionError != null) {
+            request.setAttribute("descriptionError", descriptionError);
+            session.removeAttribute("descriptionError");
+        }
+        String authorError = (String) session.getAttribute("authorError");
+        if (authorError != null) {
+            request.setAttribute("authorError", authorError);
+            session.removeAttribute("authorError");
         }
     }
 }

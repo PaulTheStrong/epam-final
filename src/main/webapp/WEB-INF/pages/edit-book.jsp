@@ -31,7 +31,7 @@
                     <div class="error-box"><fmt:message key="${requestScope.descriptionError}" bundle="${rb}" /></div>
                 </c:if>
                 <label for="description"><fmt:message key="edit.book.description" bundle="${rb}" /></label>
-                <textarea id="description" maxlength="255" name="description">${book.description}</textarea>
+                <textarea id="description" maxlength="1024" name="description">${book.description}</textarea>
             </div>
 
             <div class="mb15">
@@ -44,10 +44,13 @@
 
             <div class="mb15" id="authors">
                 <label class="mtb0"><fmt:message key="edit.book.authors" bundle="${rb}" /></label>
+                <c:if test="${requestScope.authorError != null}">
+                    <div class="error-box"><fmt:message key="${requestScope.authorError}" bundle="${rb}" /></div>
+                </c:if>
                 <c:forEach var="author" items="${book.authors}">
                     <div class="columns mt5 bm10">
-                        <input type="text" name="name" value="${author.name}" class="input-field-half mt5">
-                        <input type="text" name="surname" value="${author.surname}" class="input-field-half mt5">
+                        <input type="text" name="name" value="${author.name}" class="input-field-half mt5" maxlength="50">
+                        <input type="text" name="surname" value="${author.surname}" class="input-field-half mt5" maxlength="50">
                     </div>
                 </c:forEach>
             </div>
@@ -82,13 +85,13 @@
 <script>
     function addAuthorField() {
         $('#authors').append("<div class=\"columns mt5 mb10\">" +
-            "<input type=\"text\" name=\"name\" class=\"input-field-half mt5\">"+
-            "<input type=\"text\" name=\"surname\"  class=\"input-field-half mt5\">" +
+            "<input type=\"text\" name=\"name\" class=\"input-field-half mt5\" maxlength='50'>"+
+            "<input type=\"text\" name=\"surname\"  class=\"input-field-half mt5\" maxlength='50'>" +
             "</div>");
     }
 
     function addGenreField() {
-        $('#genres').append("<input type=\"text\" name=\"genre\" class=\"input-field mt5\">");
+        $('#genres').append("<input type=\"text\" name=\"genre\" class=\"input-field mt5\" maxlength='50'>");
     }
     document.getElementById('addAuthor').onclick = addAuthorField;
     document.getElementById('addGenre').onclick = addGenreField;

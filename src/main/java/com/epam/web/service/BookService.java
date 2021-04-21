@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Optional.empty;
-
 public class BookService {
 
     private final DaoHelperFactory daoHelperFactory;
@@ -143,6 +141,26 @@ public class BookService {
             authorDao.mapAuthorsWithBookId(names, surnames, book.getId());
 
             daoHelper.endTransaction();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public void deleteBookById(long bookId) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            BookDao bookDao = daoHelper.createBookDao();
+            GenreDao genreDao = daoHelper.createGenreDao();
+            AuthorDao authorDao = daoHelper.createAuthorDao();
+            BookOrderDao bookOrderDao = daoHelper.createBookOrderDao();
+
+            daoHelper.startTransaction();
+
+            genreDao.deleteMappingsByBookId(bookId);
+            authorDao.deleteMappingsByBookId(bookId);
+            bookOrderDao.deleteMappingsByBookId(bookId);
+            bookDao.removeById(bookId);
+            daoHelper.endTransaction();
+
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

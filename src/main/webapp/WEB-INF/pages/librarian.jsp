@@ -31,8 +31,8 @@
                 </a>
             </h2>
             <h2>
-                <a href="${pageContext.request.contextPath}/controller?command=librarian&requestedStatus=RETURNED">
-                    <fmt:message key="librarian.header.returned" bundle="${rb}" />
+                <a href="${pageContext.request.contextPath}/controller?command=librarian&requestedStatus=OVERDUED">
+                    <fmt:message key="librarian.header.overdued" bundle="${rb}" />
                 </a>
             </h2>
         </div>
@@ -52,14 +52,17 @@
                         <c:when test="${order.orderStatus == 'ORDERED'}"><fmt:message key="orders.status.ordered" bundle="${rb}" /></c:when>
                         <c:when test="${order.orderStatus == 'IN_HAND'}"><fmt:message key="orders.status.in_hand" bundle="${rb}" /></c:when>
                         <c:when test="${order.orderStatus == 'READ_ROOM'}"><fmt:message key="orders.status.read_room" bundle="${rb}" /></c:when>
-                        <c:when test="${order.orderStatus == 'RETURNED'}"><fmt:message key="orders.status.returned" bundle="${rb}" /></c:when>
+                        <c:when test="${order.orderStatus == 'OVERDUED'}"><fmt:message key="orders.status.in_hand" bundle="${rb}" /></c:when>
                     </c:choose>
 
-                    <c:if test="${order.orderStatus == 'IN_HAND'}">
-                        <fmt:formatDate value="${order.startDate}" />
-                        <fmt:message key="orders.status.to" bundle="${rb}"/>
-                        <fmt:formatDate value="${order.endDate}" />
-                    </c:if>
+                        <c:if test="${order.orderStatus == 'IN_HAND' || order.orderStatus == 'OVERDUED'}">
+                            <span style="<c:if test="${order.orderStatus == 'OVERDUED'}">color:red</c:if>">
+                                <b><fmt:formatDate value="${order.startDate}" /></b>
+                                <fmt:message key="orders.status.to" bundle="${rb}"/>
+                                <b><fmt:formatDate value="${order.endDate}" /></b>
+                                <c:if test="${order.orderStatus == 'OVERDUED'}"><fmt:message key="orders.status.overdued" bundle="${rb}" /></c:if>
+                            </span>
+                        </c:if>
                     </p>
                     <c:if test="${requestScope.requestedStatus == 'ORDERED'}">
                         <form method="post" class="inline-block">
@@ -90,13 +93,6 @@
                 </div>
             </div>
         </c:forEach>
-        <c:if test="${requestScope.currentPage != 1}">
-            <a href="${pageContext.request.contextPath}/controller?command=profile<c:if test="${requestScope.authorId != null}">&authorId=${requestScope.authorId}</c:if><c:if test="${requestScope.genreId != null}">&genreId=${requestScope.genreId}</c:if>&page=${requestScope.currentPage - 1}"><fmt:message key="books.prev" bundle="${rb}" /></a>
-        </c:if>
-        <span>${requestScope.currentPage}</span>
-        <c:if test="${!requestScope.isLast}">
-            <a href="${pageContext.request.contextPath}/controller?command=profile<c:if test="${requestScope.authorId != null}">&authorId=${requestScope.authorId}</c:if><c:if test="${requestScope.genreId != null}">&genreId=${requestScope.genreId}</c:if>&page=${requestScope.currentPage + 1}"><fmt:message key="books.next" bundle="${rb}" /></a>
-        </c:if>
     </div>
 </div>
 

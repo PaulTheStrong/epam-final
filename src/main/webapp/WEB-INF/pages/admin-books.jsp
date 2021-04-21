@@ -54,10 +54,15 @@
                         </c:forEach>
                     </ul>
                     <p><fmt:message key="books.quantity" bundle="${rb}"/>: <c:out value="${book.quantity}"/></p>
-                    <form method="get">
+                    <form method="get" class="inline-block">
                         <input type="hidden" name="command" value="editBook" />
                         <input type="hidden" name="bookId" value="${book.id}" />
                         <input type="submit" value="<fmt:message bundle="${rb}" key="admin.edit" />" class="submit-btn"/>
+                    </form>
+                    <form method="get" class="inline-block">
+                        <input type="hidden" name="command" value="deleteBook" />
+                        <input type="hidden" name="bookId" value="${book.id}" />
+                        <input onclick="return confirm('<fmt:message key="admin.delete.confirm" bundle="${rb}"/>')" type="submit" value="<fmt:message bundle="${rb}" key="admin.delete" />" class="submit-btn"/>
                     </form>
                 </div>
             </div>
@@ -65,7 +70,7 @@
         <form method="get">
             <input type="hidden" name="command" value="editBook">
             <input type="hidden" name="bookId" value="0"/>
-            <input type="submit" value="admin.add">
+            <input type="submit" value="<fmt:message key="admin.add" bundle="${rb}" />" class="submit-btn" />
         </form>
     </div>
 </div>
