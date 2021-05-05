@@ -3,6 +3,7 @@ package com.epam.web.dao;
 import com.epam.web.enitity.Genre;
 import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.GenreRowMapper;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
 import java.util.List;
@@ -71,24 +72,20 @@ public class GenreDaoImpl extends AbstractDao<Genre> implements GenreDao {
     @Override
     public void mapGenresWithBookId(List<String> genres, long bookId) throws DaoException {
         for (String genre : genres) {
-            if (!genre.equals("")) {
-                execute(MAP_GENRE_WITH_BOOK, bookId, genre);
-            }
+            execute(MAP_GENRE_WITH_BOOK, bookId, genre);
         }
     }
 
     @Override
     public void insertIfNotExist(List<String> genres) throws DaoException {
         for (String genre : genres) {
-            if (!genre.equals("")) {
-                execute(INSERT_IF_NOT_EXISTS, genre, genre);
-            }
+            execute(INSERT_IF_NOT_EXISTS, genre, genre);
         }
     }
 
     @Override
     public void removeById(long id) {
-
+        throw new NotImplementedException();
     }
 
 }

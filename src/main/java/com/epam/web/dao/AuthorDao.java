@@ -1,23 +1,23 @@
 package com.epam.web.dao;
 
 import com.epam.web.enitity.Author;
-import com.epam.web.enitity.Genre;
 import com.epam.web.exception.DaoException;
 
 import java.util.List;
 
-public interface AuthorDao {
+public interface AuthorDao extends Dao<Author> {
 
+    /**
+     * @return list of authors that book with specified bookId has.
+     */
     List<Author> findAllByBookId(long bookId) throws DaoException;
-
-    List<Author> findAll() throws DaoException;
 
     void deleteMappingsByBookId(long bookId) throws DaoException;
 
-    void mapAuthorsWithBookId(List<String> names, List<String> surnames, long bookId) throws DaoException;
+    void mapAuthorsWithBookId(List<Author> authors, long bookId) throws DaoException;
 
     List<Author> findAllWhereBookAttached() throws DaoException;
 
-    void insertIfNotExist(List<String> names, List<String> surnames) throws DaoException;
+    void insertIfNotExist(List<Author> authors) throws DaoException;
 
 }

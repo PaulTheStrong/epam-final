@@ -18,6 +18,6 @@ public class DeleteBookCommand implements Command {
             long bookIdValue = Long.parseLong(bookId.get());
             bookService.deleteBookById(bookIdValue);
         }
-        return CommandResult.forward("WEB-INF/pages/admin-books.jsp");
+        return CommandResult.redirect(request.getContextPath() + "/controller?command=admin");
     }
 }

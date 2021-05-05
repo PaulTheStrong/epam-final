@@ -1,5 +1,7 @@
 package com.epam.web.validator;
 
+import com.epam.web.enitity.Author;
+
 public class BookValidator {
 
     public static final String EDIT_ERROR_ZERO_LENGTH_TITLE = "edit.error.zeroLengthTitle";
@@ -38,9 +40,12 @@ public class BookValidator {
         return OK;
     }
 
-    public String validateAuthor(String name, String surname) {
-        if (name.length() > 50 || surname.length() > 50) {
+    public String validateAuthor(Author author) {
+        if (author.getName().length() > 50 || author.getSurname().length() > 50) {
             return "edit.error.author.tooLong";
+        }
+        if (author.getName().isEmpty() || author.getSurname().isEmpty()) {
+            return "edit.error.author.emptyString";
         }
         return OK;
     }

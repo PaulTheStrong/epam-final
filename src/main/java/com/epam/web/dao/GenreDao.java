@@ -5,11 +5,9 @@ import com.epam.web.exception.DaoException;
 
 import java.util.List;
 
-public interface GenreDao {
+public interface GenreDao extends Dao<Genre> {
 
     List<Genre> findAllByBookId(long bookId) throws DaoException;
-
-    List<Genre> findAll() throws DaoException;
 
     List<Genre> findAllWhereBookAttached() throws DaoException;
 

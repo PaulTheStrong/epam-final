@@ -75,24 +75,16 @@ public class AuthorDaoImpl extends AbstractDao<Author> implements AuthorDao {
     }
 
     @Override
-    public void mapAuthorsWithBookId(List<String> names, List<String> surnames, long bookId) throws DaoException {
-        for (int i = 0; i < names.size(); i++) {
-            String surname = surnames.get(i);
-            String name = names.get(i);
-            if (!name.equals("") && !surname.equals("")) {
-                execute(MAP_AUTHOR_WITH_BOOK, bookId, name, surname);
-            }
+    public void mapAuthorsWithBookId(List<Author> authors, long bookId) throws DaoException {
+        for (Author author : authors) {
+            execute(MAP_AUTHOR_WITH_BOOK, bookId, author.getName(), author.getSurname());
         }
     }
 
     @Override
-    public void insertIfNotExist(List<String> names, List<String> surnames) throws DaoException {
-        for (int i = 0; i < names.size(); i++) {
-            String surname = surnames.get(i);
-            String name = names.get(i);
-            if (!surname.equals("") && !name.equals("")) {
-                execute(INSERT_IF_NOT_EXISTS, name, surname, name, surname);
-            }
+    public void insertIfNotExist(List<Author> authors) throws DaoException {
+        for (Author author : authors) {
+            execute(INSERT_IF_NOT_EXISTS, author.getName(), author.getSurname(), author.getName(), author.getSurname());
         }
     }
 }

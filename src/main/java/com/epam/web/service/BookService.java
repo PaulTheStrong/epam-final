@@ -123,7 +123,7 @@ public class BookService {
         }
     }
 
-    public void save(Book book, List<String> names, List<String> surnames, List<String> genres) throws ServiceException {
+    public void save(Book book, List<Author> authors, List<String> genres) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             BookDao bookDao = daoHelper.createBookDao();
             GenreDao genreDao = daoHelper.createGenreDao();
@@ -137,8 +137,8 @@ public class BookService {
             genreDao.mapGenresWithBookId(genres, book.getId());
 
             authorDao.deleteMappingsByBookId(book.getId());
-            authorDao.insertIfNotExist(names, surnames);
-            authorDao.mapAuthorsWithBookId(names, surnames, book.getId());
+            authorDao.insertIfNotExist(authors);
+            authorDao.mapAuthorsWithBookId(authors, book.getId());
 
             daoHelper.endTransaction();
         } catch (DaoException e) {

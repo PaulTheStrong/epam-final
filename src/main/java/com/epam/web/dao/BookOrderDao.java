@@ -12,12 +12,6 @@ public interface BookOrderDao extends Dao<BookOrder> {
 
     List<BookOrder> findAllByUserId(long userId) throws DaoException;
 
-    @Override
-    List<BookOrder> findAll() throws DaoException;
-
-    @Override
-    Optional<BookOrder> findById(long userId) throws DaoException;
-
     List<BookOrder> findAllByStatus(BookOrderStatus status) throws DaoException;
 
     List<BookOrder> findRecordsOnPageByUserId(long userId, long pageIndex, long elementsOnPage) throws DaoException;

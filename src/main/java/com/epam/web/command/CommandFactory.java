@@ -16,6 +16,8 @@ public class CommandFactory {
     private static final String ADMIN = "admin";
     private static final String EDIT_BOOK = "editBook";
     private static final String EDIT_USER = "editUser";
+    public static final String CANCEL_ORDER = "cancelOrder";
+    public static final String DELETE_BOOK = "deleteBook";
 
     public Command create(String type) {
         switch (type) {
@@ -39,12 +41,12 @@ public class CommandFactory {
                 return new EditBookCommand(new BookValidator());
             case EDIT_USER:
                 return new EditUserCommand();
-            case "cancelOrder":
+            case CANCEL_ORDER:
                 return new CancelOrderCommand();
-            case "deleteBook":
+            case DELETE_BOOK:
                 return new DeleteBookCommand();
             default:
-                throw new IllegalArgumentException("Unknown command: " +  type);
+                return new NotFoundCommand();
         }
     }
 

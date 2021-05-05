@@ -22,8 +22,10 @@
   <servlet>
     <servlet-name>main</servlet-name>
     <servlet-class>com.epam.web.Controller</servlet-class>
+    <multipart-config>
+    </multipart-config>
   </servlet>
-  
+
   <servlet>
     <servlet-name>ImageServlet</servlet-name>
     <servlet-class>com.epam.web.ImageServlet</servlet-class>

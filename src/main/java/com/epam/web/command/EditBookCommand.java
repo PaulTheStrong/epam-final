@@ -2,6 +2,7 @@ package com.epam.web.command;
 
 import com.epam.web.dao.DaoHelperFactory;
 import com.epam.web.dto.BookDto;
+import com.epam.web.enitity.Author;
 import com.epam.web.enitity.Book;
 import com.epam.web.exception.ServiceException;
 import com.epam.web.service.BookService;
@@ -18,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 public class EditBookCommand implements Command {
@@ -57,8 +60,7 @@ public class EditBookCommand implements Command {
             request.setAttribute("book", bookOptional.get());
         } else if (bookId == 0) {
             Book newBook = new Book(0, "Title", "Description", "", 0);
-            List<String> emptyList = Collections.emptyList();
-            bookService.save(newBook, emptyList, emptyList, emptyList);
+            bookService.save(newBook, Collections.emptyList(), Collections.emptyList());
             long lastId = bookService.getLastId();
             return CommandResult.redirect(request.getContextPath() + "/controller?command=editBook&bookId=" + lastId);
         } else {
@@ -97,34 +99,31 @@ public class EditBookCommand implements Command {
 
         String[] emptyArray = {};
         String[] names = Optional.ofNullable(request.getParameterValues("name")).orElse(emptyArray);
-        List<String> authorNames = Arrays.asList(names);
         String[] surnames = Optional.ofNullable(request.getParameterValues("surname")).orElse(emptyArray);
-        List<String> authorSurnames = Arrays.asList(surnames);
-        for (int i = 0; i < names.length; i++) {
-            String authorName = authorNames.get(i);
-            String authorSurname = authorSurnames.get(i);
-            String authorsStatus = validator.validateAuthor(authorName, authorSurname);
-            if (!"OK".equals(authorsStatus)){
-                isOk = false;
-                session.setAttribute("authorError", authorsStatus);
-                break;
-            }
-        }
+
+        List<Author> authors = IntStream.range(0, names.length)
+                .mapToObj(i -> new Author(0, names[i], surnames[i]))
+                .filter(author -> validator.validateAuthor(author).equals("OK"))
+                .collect(Collectors.toList());
+
         String[] genresArray = Optional.ofNullable(request.getParameterValues("genre")).orElse(emptyArray);
-        List<String> genres = Arrays.asList(genresArray);
+        List<String> genres = Arrays.stream(genresArray)
+                .map(String::trim)
+                .filter(String::isEmpty)
+                .collect(Collectors.toList());
 
         Part part = request.getPart("image");
         String previousPath = request.getParameter("previousPath");
         Book book = new Book(bookId, title, description, previousPath, quantity);
 
         String uploadedName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-        if (!uploadedName.equals("")) {
+        if (!uploadedName.isEmpty()) {
             updateImage(request, bookId, part, book, uploadedName);
         }
 
         BookService bookService = new BookService(daoHelperFactory);
         if (isOk) {
-            bookService.save(book, authorNames, authorSurnames, genres);
+            bookService.save(book, authors, genres);
         }
     }
 
