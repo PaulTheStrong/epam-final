@@ -36,10 +36,28 @@ public class UserService {
         }
     }
 
+    public Optional<User> getById(long id) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()){
+            UserDao userDao = daoHelper.createUserDao();
+            return userDao.findById(id);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
     public List<User> getAllUsers() throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()){
             UserDao userDao = daoHelper.createUserDao();
             return userDao.findAll();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public void save(User user) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()){
+            UserDao userDao = daoHelper.createUserDao();
+            userDao.save(user);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

@@ -11,13 +11,15 @@ public class User implements Identifiable{
     private String surname;
 
     private Role role;
+    private boolean blocked;
 
-    public User(long id, String login, String name, String surname, Role role) {
+    public User(long id, String login, String name, String surname, Role role, boolean blocked) {
         this.id = id;
         this.login = login;
         this.name = name;
         this.surname = surname;
         this.role = role;
+        this.blocked = blocked;
     }
 
     public void setId(long id) {
@@ -59,5 +61,13 @@ public class User implements Identifiable{
     @Override
     public long getId() {
         return id;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
 }

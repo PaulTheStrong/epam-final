@@ -18,7 +18,7 @@
             <a href="${pageContext.request.contextPath}/controller?command=admin&edit=books">Books</a>
         </h2>
         <h2>
-            <a href="${pageContext.request.contextPath}/controller?command=admin&edit=users">Users</a>
+            <a href="${pageContext.request.contextPath}/controller?command=editUser">Users</a>
         </h2>
     </div>
     <div class="full-width">

@@ -2,6 +2,7 @@ package com.epam.web.filter;
 
 import com.epam.web.enitity.Role;
 import com.epam.web.enitity.User;
+import org.apache.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +15,10 @@ import java.util.Map;
 
 public class PageAccessFilter implements Filter {
 
+    private static final Logger LOGGER = Logger.getRootLogger();
+
     public static final String GUEST = "guest";
+    public static final String BLOCKED = "BLOCKED";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -34,15 +38,24 @@ public class PageAccessFilter implements Filter {
         } else {
             role = user.getRole().name();
         }
+
         String command = request.getParameter("command");
+        LOGGER.debug("Page access filter. Role : " + role + ". Command: " + command);
         if (!accessibleCommands.get(role).contains(command)) {
             if (role.equals(GUEST)) {
-                request.getRequestDispatcher("WEB-INF/pages/login.jsp");
+                request.getRequestDispatcher("WEB-INF/pages/login.jsp").forward(request, servletResponse);
+                return;
             } else {
                 request.setAttribute("errorMessage", "error.notEnoughRights");
                 request.getRequestDispatcher("WEB-INF/pages/info.jsp").forward(request, servletResponse);
                 return;
             }
+        }
+
+        if (user != null && user.isBlocked() && !accessibleCommands.get(BLOCKED).contains(command)) {
+            request.setAttribute("errorMessage", "error.blocked");
+            request.getRequestDispatcher("WEB-INF/pages/info.jsp").forward(request, servletResponse);
+            return;
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
@@ -57,5 +70,6 @@ public class PageAccessFilter implements Filter {
         accessibleCommands.put(Role.READER.name(), Arrays.asList("logout", "pageNotFound", "library", "showPage", "profile", "orderBook", "cancelOrder"));
         accessibleCommands.put(Role.LIBRARIAN.name(), Arrays.asList("logout", "pageNotFound", "library", "showPage", "librarian"));
         accessibleCommands.put(Role.ADMIN.name(), Arrays.asList("logout", "pageNotFound", "library", "showPage", "admin", "editBook", "editUser", "deleteBook"));
+        accessibleCommands.put(BLOCKED, Arrays.asList("logout", "pageNotFound", "library", "showPage"));
     }
 }

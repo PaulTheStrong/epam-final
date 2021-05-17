@@ -34,7 +34,7 @@ public class Controller extends HttpServlet {
     public static void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String commandType = request.getParameter("command");
         request.setCharacterEncoding("UTF-8");
-        if("".equals(commandType)) {
+        if(commandType == null || "".equals(commandType)) {
             request.getRequestDispatcher("index.jsp").forward(request, response);
             return;
         }
