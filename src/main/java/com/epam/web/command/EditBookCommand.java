@@ -109,7 +109,7 @@ public class EditBookCommand implements Command {
         String[] genresArray = Optional.ofNullable(request.getParameterValues("genre")).orElse(emptyArray);
         List<String> genres = Arrays.stream(genresArray)
                 .map(String::trim)
-                .filter(String::isEmpty)
+                .filter(string -> !string.isEmpty())
                 .collect(Collectors.toList());
 
         Part part = request.getPart("image");

@@ -16,8 +16,9 @@ public class CommandFactory {
     private static final String ADMIN = "admin";
     private static final String EDIT_BOOK = "editBook";
     private static final String EDIT_USER = "editUser";
-    public static final String CANCEL_ORDER = "cancelOrder";
-    public static final String DELETE_BOOK = "deleteBook";
+    private static final String CANCEL_ORDER = "cancelOrder";
+    private static final String DELETE_BOOK = "deleteBook";
+    private static final String PAGE_NOT_FOUND = "pageNotFound";
 
     public Command create(String type) {
         switch (type) {

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 public class NotFoundCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
-        return null;
+        request.setAttribute("errorMessage", "error.pageNotExist");
+        return CommandResult.forward("WEB-INF/pages/info.jsp");
     }
 }

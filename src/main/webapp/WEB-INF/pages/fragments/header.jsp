@@ -13,8 +13,8 @@
     <c:choose>
         <c:when test="${sessionScope.user == null}">100%</c:when>
         <c:when test="${sessionScope.user.role == 'READER'}">50%</c:when>
-        <c:when test="${sessionScope.user.role == 'LIBRARIAN'}">33.3%</c:when>
-        <c:when test="${sessionScope.user.role == 'ADMIN'}">25%</c:when>
+        <c:when test="${sessionScope.user.role == 'LIBRARIAN'}">50%</c:when>
+        <c:when test="${sessionScope.user.role == 'ADMIN'}">50%</c:when>
     </c:choose>;
 }
 </style>
@@ -25,9 +25,9 @@
 <div class="header">
 
     <ul class="localization">
-        <li><a href="${pageContext.request.contextPath}/controller?command=${param.command}&lang=ru">RU</a></li>
-        <li><a href="${pageContext.request.contextPath}/controller?command=${param.command}&lang=en">EN</a></li>
-        <li><a href="${pageContext.request.contextPath}/controller?command=${param.command}&lang=de">DE</a></li>
+        <li><a href="${pageContext.request.contextPath}/controller?${pageContext.request.queryString}&lang=ru">RU</a></li>
+        <li><a href="${pageContext.request.contextPath}/controller?${pageContext.request.queryString}&lang=en">EN</a></li>
+        <li><a href="${pageContext.request.contextPath}/controller?${pageContext.request.queryString}&lang=be">BE</a></li>
     </ul>
 
     <!---     Navigation       --->
@@ -42,13 +42,10 @@
             </c:when>
             <c:when test="${sessionScope.user.role == 'LIBRARIAN'}">
                 <li><a href="${pageContext.request.contextPath}/controller?command=library"><fmt:message key="library" /></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=profile">${sessionScope.user.login}</a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command=librarian"><fmt:message key="librarian" /></a></li>
             </c:when>
             <c:when test="${sessionScope.user.role == 'ADMIN'}">
                 <li><a href="${pageContext.request.contextPath}/controller?command=library"><fmt:message key="library" /></a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=profile">${sessionScope.user.login}</a></li>
-                <li><a href="${pageContext.request.contextPath}/controller?command=librarian"><fmt:message key="librarian" /></a></li>
                 <li><a href="${pageContext.request.contextPath}/controller?command=admin"><fmt:message key="admin" /></a></li>
             </c:when>
         </c:choose>

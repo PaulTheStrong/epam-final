@@ -84,7 +84,7 @@
                             </c:forEach>
                         </ul>
                         <p><fmt:message key="books.quantity" bundle="${rb}"/>: <c:out value="${book.quantity}"/></p>
-                        <c:if test="${sessionScope.user != null && book.quantity != 0}">
+                        <c:if test="${sessionScope.user != null && book.quantity != 0 && sessionScope.user.role == 'READER'}">
                         <form method="post" action="${pageContext.request.contextPath}/controller">
                             <input type="hidden" name="command" value="orderBook" />
                             <input type="hidden" name="bookId" value="${book.id}" />
