@@ -3,6 +3,10 @@ package com.epam.web.filter;
 import javax.servlet.*;
 import java.io.IOException;
 
+/**
+ * Filter that sets right encoding so that every
+ * character is shown in correct way.
+ */
 public class CharsetFilter implements Filter {
 
     private String encoding;

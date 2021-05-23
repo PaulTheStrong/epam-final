@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * AbstractDao is a class with basic info logic for
+ * making SQL Requests, creating statements, executing
+ * them e.g.
+ */
 public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
 
     private final Connection connection;
@@ -21,6 +26,13 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         this.tableName = tableName;
     }
 
+    /**
+     * Binds all the needed params into prepared statement,
+     * then executes it, returning List of found objects.
+     * @param query SQL Query to be executed.
+     * @param params Params to bind into query.
+     * @return List of objects found in database.
+     */
     protected List<T> executeQuery(String query, Object... params) throws DaoException {
         List<T> result = new ArrayList<>();
         try (PreparedStatement preparedStatement = createStatement(query, params);
@@ -35,6 +47,9 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         return result;
     }
 
+    /**
+     * Binds param into query.
+     */
     protected PreparedStatement createStatement(String query, Object... params) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         for (int i = 0; i < params.length; i++) {
@@ -43,11 +58,19 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         return preparedStatement;
     }
 
+    /**
+     * @return all the object in database in specified table Mapped by proper mapper.
+     */
     public List<T> findAll() throws DaoException {
         String query = "SELECT * FROM " + tableName;
         return executeQuery(query);
     }
 
+    /**
+     * @return elementsOnPage objects starting from index pageIndex * elementsOnPage
+     * @param pageIndex number of page
+     * @param elementsOnPage count of elements on one page.
+     */
     @Override
     public List<T> findRecordsOnPage(long pageIndex, long elementsOnPage) throws DaoException {
         long startIndex = pageIndex * elementsOnPage;
@@ -61,6 +84,10 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         return executeForSingleResult(query, id);
     }
 
+    /**
+     * Used to perform queries that return an one column
+     * result with integer value. For example count() function.
+     */
     protected long count(String query, Object... parameters) throws DaoException {
         try (PreparedStatement statement = createStatement(query, parameters);
             ResultSet resultSet = statement.executeQuery()) {
@@ -71,12 +98,20 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         }
     }
 
+    /**
+     * Counts all records in specified database
+     */
     @Override
     public long countAll() throws DaoException {
         String query = "SELECT COUNT(*) as count FROM " + tableName;
         return count(query);
     }
 
+    /**
+     * Checks if giver query returns one records.
+     * If so, returns that record. If records more than one,
+     * throws a DaoException. Otherwise returns Optional.empty().
+     */
     protected Optional<T> executeForSingleResult(String query, Object... params) throws DaoException {
         List<T> entities = executeQuery(query, params);
         if (entities.size() > 1) {
@@ -88,6 +123,9 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         }
     }
 
+    /**
+     * Executes given query with params and returns nothing.
+     */
     protected void execute(String query, Object... params) throws DaoException {
         try (PreparedStatement statement = createStatement(query, params)) {
             statement.execute();

@@ -13,12 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Manages the access for users with different roles and
+ * block status.
+ */
 public class PageAccessFilter implements Filter {
 
     private static final Logger LOGGER = Logger.getRootLogger();
 
-    public static final String GUEST = "guest";
-    public static final String BLOCKED = "BLOCKED";
+    private static final String GUEST = "guest";
+    private static final String BLOCKED = "BLOCKED";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

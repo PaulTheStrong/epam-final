@@ -7,6 +7,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * Changes the language into session if the
+ * lang parameters is presented.
+ */
 public class LanguageFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {}

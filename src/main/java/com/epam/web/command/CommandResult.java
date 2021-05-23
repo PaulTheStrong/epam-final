@@ -1,5 +1,10 @@
 package com.epam.web.command;
 
+
+/**
+ * CommandResult class provides convenient way to define
+ * redirect or forward actions into commands.
+ */
 public class CommandResult {
 
     private final String page;

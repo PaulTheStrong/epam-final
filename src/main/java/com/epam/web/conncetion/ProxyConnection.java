@@ -5,6 +5,10 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+/**
+ * ProxyConnection class gives an ability to return a connection
+ * to connection pool after it has been used.
+ */
 public class ProxyConnection implements Connection {
 
     private final Connection connection;

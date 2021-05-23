@@ -12,6 +12,10 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.ReentrantLock;
 
+
+/**
+ * Connection pool has
+ */
 public class ConnectionPool {
 
     private static final Logger LOGGER = Logger.getRootLogger();
@@ -52,6 +56,7 @@ public class ConnectionPool {
         } catch (SQLException e) {
             throw new ConnectionException("Cannot create exception : " + e);
         }
+        LOGGER.info("Connection pool has been instantiated");
     }
 
     public static ConnectionPool getInstance() {
@@ -79,6 +84,7 @@ public class ConnectionPool {
         } finally {
             connectionsLock.unlock();
         }
+        LOGGER.info("Connection has been returned into pool");
     }
 
     public ProxyConnection getConnection() throws DaoException {
@@ -87,6 +93,7 @@ public class ConnectionPool {
             semaphore.acquire();
             ProxyConnection connection = availableConnections.poll();
             connectionsInUse.add(connection);
+            LOGGER.info("Connection has been taken from pool");
             return connection;
         } catch (InterruptedException e) {
             throw new DaoException(e);

@@ -7,9 +7,6 @@ import java.util.List;
 
 public interface AuthorDao extends Dao<Author> {
 
-    /**
-     * @return list of authors that book with specified bookId has.
-     */
     List<Author> findAllByBookId(long bookId) throws DaoException;
 
     void deleteMappingsByBookId(long bookId) throws DaoException;
