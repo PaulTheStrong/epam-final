@@ -4,12 +4,14 @@ import com.epam.web.enitity.Author;
 
 public class BookValidator {
 
-    public static final String EDIT_ERROR_ZERO_LENGTH_TITLE = "edit.error.zeroLengthTitle";
-    public static final String EDIT_ERROR_TITLE_TOO_LONG = "edit.error.titleTooLong";
-    public static final String EDIT_ERROR_DESCRIPTION_TOO_LONG_DESCRIPTION = "edit.error.description.tooLongDescription";
-    public static final String OK = "OK";
-    public static final String EDIT_ERROR_QUANTITY_NOT_NUMBER = "edit.error.quantity.notNumber";
-    public static final String EDIT_ERROR_QUANTITY_WRONG_BOUNDS = "edit.error.quantity.wrongBounds";
+    private static final String OK = "OK";
+    private static final String EDIT_ERROR_ZERO_LENGTH_TITLE = "edit.error.zeroLengthTitle";
+    private static final String EDIT_ERROR_TITLE_TOO_LONG = "edit.error.titleTooLong";
+    private static final String EDIT_ERROR_DESCRIPTION_TOO_LONG_DESCRIPTION = "edit.error.description.tooLongDescription";
+    private static final String EDIT_ERROR_QUANTITY_NOT_NUMBER = "edit.error.quantity.notNumber";
+    private static final String EDIT_ERROR_QUANTITY_WRONG_BOUNDS = "edit.error.quantity.wrongBounds";
+    private static final String EDIT_ERROR_AUTHOR_TOO_LONG = "edit.error.author.tooLong";
+    private static final String EDIT_ERROR_AUTHOR_EMPTY_STRING = "edit.error.author.emptyString";
 
     public String validateTitle(String title) {
         if (title.isEmpty()) {
@@ -42,10 +44,10 @@ public class BookValidator {
 
     public String validateAuthor(Author author) {
         if (author.getName().length() > 50 || author.getSurname().length() > 50) {
-            return "edit.error.author.tooLong";
+            return EDIT_ERROR_AUTHOR_TOO_LONG;
         }
         if (author.getName().isEmpty() || author.getSurname().isEmpty()) {
-            return "edit.error.author.emptyString";
+            return EDIT_ERROR_AUTHOR_EMPTY_STRING;
         }
         return OK;
     }
