@@ -15,10 +15,10 @@
 <div id="main" class="flex-column">
     <div class="bookmarks">
         <h2>
-            <a href="${pageContext.request.contextPath}/controller?command=admin&edit=books">Books</a>
+            <a href="${pageContext.request.contextPath}/controller?command=admin&edit=books"><fmt:message key="admin.header.books" bundle="${rb}" /></a>
         </h2>
         <h2>
-            <a href="${pageContext.request.contextPath}/controller?command=editUser">Users</a>
+            <a href="${pageContext.request.contextPath}/controller?command=editUser"><fmt:message key="admin.header.users" bundle="${rb}" /></a>
         </h2>
     </div>
     <div class="full-width">

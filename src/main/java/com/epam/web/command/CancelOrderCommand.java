@@ -12,6 +12,9 @@ import java.util.Optional;
 
 public class CancelOrderCommand implements Command {
 
+    private static final String ORDER_CANCEL_SUCCESS = "order.cancel.success";
+    private static final String SUCCESS_MESSAGE = "successMessage";
+
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         OrderService orderService = new OrderService(new DaoHelperFactory());
@@ -24,7 +27,7 @@ public class CancelOrderCommand implements Command {
                 BookOrder bookOrder = orderOptional.get();
                 if (bookOrder.getOrderStatus() == BookOrderStatus.ORDERED) {
                     orderService.cancelOrder(bookOrder);
-                    request.setAttribute("successMessage", "order.cancel.success");
+                    request.setAttribute(SUCCESS_MESSAGE, ORDER_CANCEL_SUCCESS);
                 }
             }
         }

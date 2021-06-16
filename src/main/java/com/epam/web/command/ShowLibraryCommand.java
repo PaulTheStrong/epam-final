@@ -16,18 +16,22 @@ import java.util.Optional;
 
 public class ShowLibraryCommand implements Command {
 
+    private static final String ORDERED_BOOK = "orderedBook";
+    private static final String AUTHOR_ID = "authorId";
+    private static final String GENRE_ID = "genreId";
+
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         BookService bookService = new BookService(new DaoHelperFactory());
         List<BookDto> books;
-        String authorIdString = request.getParameter("authorId");
-        String genreIdString = request.getParameter("genreId");
+        String authorIdString = request.getParameter(AUTHOR_ID);
+        String genreIdString = request.getParameter(GENRE_ID);
 
         HttpSession session = request.getSession();
-        BookDto orderedBook = (BookDto) session.getAttribute("orderedBook");
+        BookDto orderedBook = (BookDto) session.getAttribute(ORDERED_BOOK);
         if (orderedBook != null) {
-            request.setAttribute("orderedBook", orderedBook);
-            session.removeAttribute("orderedBook");
+            request.setAttribute(ORDERED_BOOK, orderedBook);
+            session.removeAttribute(ORDERED_BOOK);
         }
 
         long page = Long.parseLong(Optional.ofNullable(request.getParameter("page")).orElse("1"));
@@ -35,12 +39,12 @@ public class ShowLibraryCommand implements Command {
         boolean isLast;
 
         if (authorIdString != null) {
-            request.setAttribute("authorId", authorIdString);
+            request.setAttribute(AUTHOR_ID, authorIdString);
             long authorId = Long.parseLong(authorIdString);
             books = bookService.getBooksByAuthorId(authorId, page - 1, elementsOnPage);
             isLast = bookService.countBooksByAuthorId(authorId) <= page * elementsOnPage;
         } else if (genreIdString != null) {
-            request.setAttribute("genreId", genreIdString);
+            request.setAttribute(GENRE_ID, genreIdString);
             long genreId = Long.parseLong(genreIdString);
             books =  bookService.getBooksByGenreId(genreId, page - 1, elementsOnPage);
             isLast = bookService.countBooksByGenreId(genreId) <= page * elementsOnPage;

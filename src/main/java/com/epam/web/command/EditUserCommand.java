@@ -14,6 +14,8 @@ import java.util.Optional;
 
 public class EditUserCommand implements Command {
 
+    private static final String ERROR_MESSAGE = "errorMessage";
+
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         UserService userService = new UserService(new DaoHelperFactory());
@@ -27,7 +29,7 @@ public class EditUserCommand implements Command {
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
                 if (user.getRole() == Role.ADMIN) {
-                    request.setAttribute("errorMessage", "error.adminModification");
+                    request.setAttribute(ERROR_MESSAGE, "error.adminModification");
                 } else {
                     if (action.equals("block")) {
                         user.setBlocked(true);
@@ -36,11 +38,11 @@ public class EditUserCommand implements Command {
                         user.setBlocked(false);
                         userService.save(user);
                     } else {
-                        request.setAttribute("errorMessage", "error.invalidAction");
+                        request.setAttribute(ERROR_MESSAGE, "error.invalidAction");
                     }
                 }
             } else {
-                request.setAttribute("errorMessage", "error.noSuchUser");
+                request.setAttribute(ERROR_MESSAGE, "error.noSuchUser");
             }
         }
 

@@ -13,10 +13,13 @@ import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 public class OrderBookCommand implements Command {
+
+    private static final String CONTROLLER_COMMAND_LIBRARY = "/controller?command=library";
+
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         if (!request.getMethod().equals("POST")) {
-            return CommandResult.redirect(request.getContextPath() + "/controller?command=library");
+            return CommandResult.redirect(request.getContextPath() + CONTROLLER_COMMAND_LIBRARY);
         }
 
         HttpSession session = request.getSession();
@@ -30,6 +33,6 @@ public class OrderBookCommand implements Command {
         Optional<BookDto> bookOptional = bookService.getById(bookId);
         bookOptional.ifPresent(book -> session.setAttribute("orderedBook", book));
 
-        return CommandResult.redirect(request.getContextPath() + "/controller?command=library");
+        return CommandResult.redirect(request.getContextPath() + CONTROLLER_COMMAND_LIBRARY);
     }
 }

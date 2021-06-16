@@ -15,6 +15,8 @@ import java.util.Optional;
 
 public class ProfileCommand implements Command {
 
+    private static final String REQUESTED_STATUS = "requestedStatus";
+
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
 
@@ -22,8 +24,8 @@ public class ProfileCommand implements Command {
         User user = (User) session.getAttribute("user");
         long userId = user.getId();
 
-        String requestedStatus = Optional.ofNullable(request.getParameter("requestedStatus")).orElse("ORDERED");
-        request.setAttribute("requestedStatus", requestedStatus);
+        String requestedStatus = Optional.ofNullable(request.getParameter(REQUESTED_STATUS)).orElse("ORDERED");
+        request.setAttribute(REQUESTED_STATUS, requestedStatus);
         BookOrderStatus status = BookOrderStatus.valueOf(requestedStatus);
 
         OrderService orderService = new OrderService(new DaoHelperFactory());

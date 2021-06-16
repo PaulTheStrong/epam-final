@@ -25,6 +25,11 @@ import java.util.stream.IntStream;
 
 public class EditBookCommand implements Command {
 
+    private static final String TITLE_ERROR = "titleError";
+    private static final String QUANTITY_ERROR = "quantityError";
+    private static final String DESCRIPTION_ERROR = "descriptionError";
+    private static final String AUTHOR_ERROR = "authorError";
+    private static final String OK = "OK";
     private final BookValidator validator;
 
     public EditBookCommand (BookValidator validator) {
@@ -78,20 +83,20 @@ public class EditBookCommand implements Command {
         int quantity = 0;
 
         String titleStatus = validator.validateTitle(title);
-        if (!titleStatus.equals("OK")) {
-            session.setAttribute("titleError", titleStatus);
+        if (!titleStatus.equals(OK)) {
+            session.setAttribute(TITLE_ERROR, titleStatus);
             isOk = false;
         }
 
         String descriptionStatus = validator.validateDescription(description);
-        if (!descriptionStatus.equals("OK")) {
-            session.setAttribute("descriptionError", descriptionStatus);
+        if (!descriptionStatus.equals(OK)) {
+            session.setAttribute(DESCRIPTION_ERROR, descriptionStatus);
             isOk = false;
         }
 
         String quantityStatus = validator.validateQuantity(quantityParameter);
-        if (!quantityStatus.equals("OK")) {
-            session.setAttribute("quantityError", descriptionStatus);
+        if (!quantityStatus.equals(OK)) {
+            session.setAttribute(QUANTITY_ERROR, descriptionStatus);
             isOk = false;
         } else {
             quantity = Integer.parseInt(quantityParameter);
@@ -103,7 +108,7 @@ public class EditBookCommand implements Command {
 
         List<Author> authors = IntStream.range(0, names.length)
                 .mapToObj(i -> new Author(0, names[i], surnames[i]))
-                .filter(author -> validator.validateAuthor(author).equals("OK"))
+                .filter(author -> validator.validateAuthor(author).equals(OK))
                 .collect(Collectors.toList());
 
         String[] genresArray = Optional.ofNullable(request.getParameterValues("genre")).orElse(emptyArray);
@@ -154,25 +159,25 @@ public class EditBookCommand implements Command {
 
     private void putErrors(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        String titleError = (String) session.getAttribute("titleError");
+        String titleError = (String) session.getAttribute(TITLE_ERROR);
         if (titleError != null) {
-            request.setAttribute("titleError", titleError);
-            session.removeAttribute("titleError");
+            request.setAttribute(TITLE_ERROR, titleError);
+            session.removeAttribute(TITLE_ERROR);
         }
-        String quantityError = (String) session.getAttribute("quantityError");
+        String quantityError = (String) session.getAttribute(QUANTITY_ERROR);
         if (quantityError != null) {
-            request.setAttribute("quantityError", quantityError);
-            session.removeAttribute("quantityError");
+            request.setAttribute(QUANTITY_ERROR, quantityError);
+            session.removeAttribute(QUANTITY_ERROR);
         }
-        String descriptionError = (String) session.getAttribute("descriptionError");
+        String descriptionError = (String) session.getAttribute(DESCRIPTION_ERROR);
         if (descriptionError != null) {
-            request.setAttribute("descriptionError", descriptionError);
-            session.removeAttribute("descriptionError");
+            request.setAttribute(DESCRIPTION_ERROR, descriptionError);
+            session.removeAttribute(DESCRIPTION_ERROR);
         }
-        String authorError = (String) session.getAttribute("authorError");
+        String authorError = (String) session.getAttribute(AUTHOR_ERROR);
         if (authorError != null) {
-            request.setAttribute("authorError", authorError);
-            session.removeAttribute("authorError");
+            request.setAttribute(AUTHOR_ERROR, authorError);
+            session.removeAttribute(AUTHOR_ERROR);
         }
     }
 }

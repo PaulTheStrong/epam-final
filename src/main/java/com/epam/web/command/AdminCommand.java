@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class AdminCommand implements Command {
+
+    private static final String USERS = "users";
+
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
 
@@ -21,9 +24,9 @@ public class AdminCommand implements Command {
         UserService userService = new UserService(daoHelperFactory);
 
         String edit = Optional.ofNullable(request.getParameter("edit")).orElse("books");
-        if (edit.equals("users")) {
+        if (edit.equals(USERS)) {
             List<User> users = userService.getAllUsers();
-            request.setAttribute("users", users);
+            request.setAttribute(USERS, users);
             return CommandResult.forward("WEB-INF/pages/admin-users.jsp");
         } else {
             List<BookDto> bookList = bookService.getAllBooks();
