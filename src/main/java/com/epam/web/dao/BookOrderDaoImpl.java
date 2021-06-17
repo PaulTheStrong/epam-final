@@ -20,8 +20,8 @@ public class BookOrderDaoImpl extends AbstractDao<BookOrder> implements BookOrde
     private static final String FIND_ALL_ON_PAGE_BY_USER_ID = "SELECT * FROM book_orders WHERE user_id = ? ORDER BY FIELD(status, 'ORDERED', 'READ_ROOM', 'IN_HAND', 'RETURNED') LIMIT ?, ? ";
     private static final String FIND_ALL_BY_STATUS = "SELECT * FROM book_orders WHERE status = ?";
     private static final String FIND_ALL_BY_STATUS_AND_USER_ID = "SELECT * FROM book_orders WHERE status = ? AND user_id = ?";
-    private static final String FIND_OVERDUED = "select * from book_orders where end_date<CURDATE()";
-    private static final String FIND_OVERDUED_BY_USER_ID = "select * from book_orders where end_date<CURDATE() AND user_id = ?";
+    private static final String FIND_OVERDUED = "select * from book_orders where end_date<CURDATE() and status = 'IN_HAND'";
+    private static final String FIND_OVERDUED_BY_USER_ID = "select * from book_orders where end_date<CURDATE() AND user_id = ? and status = 'IN_HAND'";
     private static final String CREATE_NEW_ORDER = "INSERT INTO book_orders (user_id, book_id) VALUES (?, ?)";
     private static final String UPDATE_STATUS = "UPDATE book_orders SET status = ?, start_date = ?, end_date = ? WHERE id = ?";
     private static final String REMOVE_BY_ID = "DELETE FROM book_orders WHERE id = ?";
