@@ -1,0 +1,273 @@
+body {
+    margin: 0;
+}
+
+
+#main {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    max-width: 1280px;
+    min-width: 530px;
+}
+
+.login-form {
+    font-family: "Lucida Console", "Courier New", monospace;
+    padding: 0 30px 0;
+    width: 70%;
+    margin: 15px auto;
+}
+
+.success-box {
+    margin: 15px 0;
+    padding: 15px;
+    border-color: #7dff49;
+    border-radius: 10px;
+    background-color: #8fff92;
+    color: #208436;
+    font-size: 20px;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.error-box {
+    margin: 15px 0;
+    padding: 5px;
+    border-color: red;
+    border-radius: 10px;
+    background-color: #f8d7da;
+    color: #842029;
+    font-size: 20px;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+* [class*="-box"] p {
+    font-size: 24px;
+}
+
+.input-field {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    font-size: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    display: block;
+}
+
+.input-field-half {
+    width: 50%;
+    height: 40px;
+    padding: 10px;
+    font-size: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+textarea {
+    width: 100%;
+    height: 240px;
+    padding:10px;
+    font-size: 20px;
+    display: block;
+    border-radius: 10px;
+
+}
+
+.submit-btn {
+    width: 200px;
+    background-color: #2980f8;
+    color: white;
+    height: 40px;
+    padding: 5px;
+    font-size: 20px;
+    margin-top: 15px;
+    border-radius: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #0b5ed7;
+}
+
+.book-search-bar {
+    width: 15%;
+    border-right: 2px solid orangered;
+    margin: 10px;
+    padding: 10px 5px;
+}
+
+.book-search-bar h4 {
+    margin: 10px 0;
+    font-size: 20px;
+    border-bottom: 1px solid coral;
+}
+
+.book-search-bar h4:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.search-block ul {
+    margin: 0;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+.search-block ul li {
+    list-style: none;
+    font-size: 16px;
+}
+
+.search-block ul li a{
+    text-decoration: none;
+    color: black;
+}
+
+.search-block ul li:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.books {
+    width: 85%;
+}
+
+.book {
+    display: flex;
+    width: 100%;
+    margin: 20px 10px;
+    border-bottom: 2px solid orangered;
+    padding-bottom: 10px;
+}
+
+.book-title h3 {
+    text-align: left;
+    font-size: 24px;
+    margin: 5px 0;
+}
+
+.book-image {
+    width: 25%;
+    max-width: 150px;
+    min-width: 130px;
+}
+
+.book img {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.book-description {
+    text-align: justify;
+    width: 85%;
+    font-size: 18px;
+    padding-left: 20px;
+}
+
+.book-description ul {
+    margin: 0;
+    padding: 0;
+}
+
+.book-description ul li {
+    display: inline;
+    list-style: none;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.book-description ul li a {
+    color: black;
+    text-decoration: none;
+
+}
+
+.book-description ul li a:hover {
+    text-decoration: underline;
+}
+
+.book-description ul li:not(:last-child) {
+    border-right: 2px solid gray;
+}
+
+.book-orders h1 {
+    text-align: center;
+    font-family: Roboto, serif;
+    font-size: 24px;
+    border-bottom: #FF820F 3px solid;
+    width: 100%;
+    padding-bottom: 15px;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.bookmarks{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    border-bottom: 2px orangered solid;
+}
+
+.bookmarks h2 {
+    width: 25%;
+    text-align: center;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.mt5 {
+    margin-top: 5px;
+}
+
+.mt10 {
+    margin-top: 10px;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
+.mb15 {
+    margin-bottom: 15px;
+}
+
+.mtb0 {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.mtb5 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.mtb10 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.columns {
+    display: flex;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.table, .table td, .table th {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+}

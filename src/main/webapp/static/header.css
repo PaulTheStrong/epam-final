@@ -1,0 +1,82 @@
+.header {
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 650px;
+    height: 50px;
+    justify-content: center;
+    background-color: black;
+    color: #b8a4a4;
+}
+
+.logo {
+    width: 5%;
+    margin: 10px;
+}
+
+.navigation {
+    display: flex;
+    width: 60%;
+    margin: 10px 0;
+}
+
+.navigation li {
+    list-style: none;
+    text-align: center;
+    font-size: 24px;
+}
+
+.navigation li a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+.navigation li a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.navigation li:not(:last-child) {
+    border-right: orangered solid 2px;
+}
+
+.login-btn {
+    width: 100px;
+    background-color: orange;
+    color: white;
+    height: 40px;
+    padding: 5px;
+    font-size: 20px;
+    margin: 5px;
+    border-radius: 10px;
+    border-color: red;
+}
+
+.login-btn:hover {
+    background-color: orangered;
+}
+
+.localization {
+    list-style: none;
+    display: flex;
+}
+
+.localization li {
+    padding: 0 5px;
+}
+
+.localization li:not(:last-child) {
+    border-right: 2px solid orangered;
+}
+
+.localization li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.localization li a:hover {
+    text-decoration: underline;
+}
+
+

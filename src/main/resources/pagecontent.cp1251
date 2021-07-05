@@ -1,0 +1,52 @@
+header.logo=Библиотека
+header.library=Книги
+header.login=Войти
+header.signOut=Выйти
+header.librarian=Библиотекарь
+header.admin=Админ
+
+sidebar.authors=Авторы
+sidebar.genres=Жанры
+
+error.invalidUsernameOrPassword=Неверный логин или пароль
+error.logoutError=Вы не вошли!
+error.relogin=Вы уже вошли!
+error.bookNotFound=Книга не найдена
+
+success.logoutSuccess=Выход прошел успешно!
+success.orderBookStart=Книга "
+success.orderBookEnd=" была добавлена в список заказанных книг.
+
+profile.myBooks=МОИ КНИГИ
+
+books.next=Слудующая
+books.prev=Предыдущая
+books.order=Заказать
+books.authors=Авторы
+books.genres=Жанры
+books.quantity=Осталось в библиотеке
+
+orders.status=Статус
+orders.status.ordered=Заказана
+orders.status.in_hand=Выдана
+orders.status.read_room=В читальном зале
+orders.status.returned=Возвращена
+orders.status.to=до
+orders.readerName=Имя читателя
+
+librarian.handOut=Выдать
+librarian.toReadRoom=В читальный зал
+librarian.return=Вернуть
+librarian.header.handedOut=Выданы
+librarian.header.readingRoom=Читальный зал
+librarian.header.ordered=Заказаны
+librarian.header.returned=Возвращены
+
+admin.edit=Редактировать
+
+edit.book.title=Название
+edit.book.description=Описание
+edit.book.authors=Авторы
+edit.book.genres=Жанры
+edit.book.update=Обновить
+edit.add=Добавить
